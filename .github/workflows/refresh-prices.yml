@@ -1,0 +1,46 @@
+name: Refresh Stooq prices
+
+# Runs after US market close every weekday and commits the updated file.
+# Two schedules cover both EST and EDT (cron is always UTC and doesn't know DST):
+#   21:30 UTC = 4:30 PM EST (winter) / 5:30 PM EDT (summer)
+#   20:30 UTC = 3:30 PM EST (winter) / 4:30 PM EDT (summer)
+# Whichever runs second is a no-op if prices are already current.
+on:
+  schedule:
+    - cron: '30 20 * * 1-5'   # 4:30 PM ET during EDT
+    - cron: '30 21 * * 1-5'   # 4:30 PM ET during EST
+  workflow_dispatch:           # Allow manual trigger from the Actions tab
+
+# Prevent overlapping runs
+concurrency:
+  group: refresh-prices
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Check out repo
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Refresh prices from Stooq
+        run: node .github/scripts/refresh-prices.js
+
+      - name: Commit and push if file changed
+        run: |
+          if git diff --quiet index.html; then
+            echo "No changes to commit."
+            exit 0
+          fi
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html
+          git commit -m "auto: refresh prices ($(date -u +%Y-%m-%d))"
+          git push
