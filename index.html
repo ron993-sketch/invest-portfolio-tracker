@@ -838,6 +838,35 @@ a{color:var(--blue);text-decoration:none;}a:hover{text-decoration:underline;}
 <script>
 Chart.defaults.color='#94a3b8';Chart.defaults.borderColor='rgba(30,41,59,.5)';Chart.defaults.font.family="'Segoe UI',sans-serif";
 
+// ══════════════════════════════════════════════════════════════════
+//   FRESHNESS CHECK — bypass GitHub Pages 10-min HTML cache.
+//   On every page load, ask the GitHub API for the latest commit time.
+//   If a newer version exists than what we have, force-reload bypassing cache.
+// ══════════════════════════════════════════════════════════════════
+const PAGE_BUILD_TIME = '__BUILD_TIME__'; // replaced by the GitHub Action on every deploy
+(async () => {
+    try {
+        // If the build time placeholder hasn't been replaced, skip (local file://, dev).
+        if (PAGE_BUILD_TIME.indexOf('__') === 0) return;
+        // Avoid reload loops: only check once per page-session.
+        if (sessionStorage.getItem('freshness_checked')) return;
+        sessionStorage.setItem('freshness_checked', '1');
+        const res = await fetch(
+            'https://api.github.com/repos/ron993-sketch/invest-portfolio-tracker/commits/main',
+            { cache: 'no-store' }
+        );
+        if (!res.ok) return;
+        const data = await res.json();
+        const latestCommit = new Date(data.commit?.committer?.date || 0).getTime();
+        const ourBuild    = new Date(PAGE_BUILD_TIME).getTime();
+        // Newer commit by more than 30 seconds → reload bypassing cache.
+        if (latestCommit > ourBuild + 30000) {
+            console.log('Newer version available, reloading…');
+            location.reload();
+        }
+    } catch(e) { /* offline / rate-limited / no-op */ }
+})();
+
 // ══════════════════════════════════════
 //   PORTFOLIO ACCOUNTING CONSTANTS
 //   (declared first to avoid TDZ errors in downstream code)
@@ -1809,8 +1838,9 @@ function renderLiveToday(){
             </div>
             <div style="text-align:right;font-size:11px;color:#94a3b8;">
                 <div>${todayStr} &middot; ${nowStr}</div>
-                <div>${liveStatus ? '✅ Live Stooq prices' : '⚠️ Using cached prices (proxy blocked)'}</div>
-                <div style="margin-top:4px;"><a href="javascript:location.reload()" style="color:#06b6d4;text-decoration:none;">🔄 Refresh now</a></div>
+                <div>${liveStatus ? '✅ Live Stooq prices' : '⚠️ Using server-side baked prices (auto-refresh: weekdays 4:30 PM ET)'}</div>
+                <div style="font-size:10px;color:#64748b;margin-top:2px;">Build: ${typeof PAGE_BUILD_TIME !== 'undefined' && PAGE_BUILD_TIME.indexOf('__') !== 0 ? PAGE_BUILD_TIME.replace('T',' ').replace('Z',' UTC') : 'dev'}</div>
+                <div style="margin-top:4px;"><a href="javascript:sessionStorage.clear();location.reload()" style="color:#06b6d4;text-decoration:none;">🔄 Force refresh</a></div>
             </div>
         </div>
         <div style="background:rgba(15,23,42,.4);border-radius:8px;padding:12px 14px;margin-bottom:14px;">

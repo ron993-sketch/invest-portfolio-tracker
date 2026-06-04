@@ -33,6 +33,12 @@ jobs:
       - name: Refresh prices from Stooq
         run: node .github/scripts/refresh-prices.js
 
+      - name: Stamp build timestamp into the page (for the auto-reload check)
+        run: |
+          BUILD_TIME="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+          # Always rewrite the timestamp — even if prices didn't change, so a fresh build is recognizable.
+          sed -i "s/PAGE_BUILD_TIME = '[^']*'/PAGE_BUILD_TIME = '$BUILD_TIME'/" index.html
+
       - name: Commit and push if file changed
         run: |
           if git diff --quiet index.html; then
