@@ -11,7 +11,7 @@ const FILE_PATH = 'index.html';
 
 // Active live-portfolio tickers (positions with shares > 0).
 // Closed positions (QFIN, CEG) keep their historical exit price baked in.
-const TICKERS = ['MU', 'OPFI', 'META', 'POWL', 'GOOGL', 'EVER', 'HLI', 'PANW', 'SMMT', 'BRK-B', 'UNH'];
+const TICKERS = ['MU', 'OPFI', 'META', 'POWL', 'GOOGL', 'EVER', 'PANW', 'BRK-B', 'UNH', 'NBIS', 'NVDA', 'TLN', 'VST'];
 
 const UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36';
 

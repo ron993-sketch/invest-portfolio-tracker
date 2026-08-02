@@ -276,6 +276,32 @@ a{color:var(--blue);text-decoration:none;}a:hover{text-decoration:underline;}
     <div class="section" style="border-color:var(--blue);">
         <h2><span class="dot" style="background:var(--blue)"></span>Daily Decision Log</h2>
 
+        <!-- ── Aug 3, 2026 · AGGRESSIVE REBALANCE for +80% target ── (newest on top) -->
+        <div style="background:linear-gradient(135deg,rgba(139,92,246,.12),rgba(34,197,94,.08));border:2px solid rgba(139,92,246,.55);border-radius:10px;padding:16px;margin-bottom:14px;">
+            <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:10px;">
+                <strong style="font-size:15px;">Aug 3, 2026 (Mon) &middot; Day 113 &middot; <span style="color:var(--purple);">AGGRESSIVE REBALANCE — targeting +80% by Oct 31</span></strong>
+                <span style="font-size:11px;color:var(--t3);">7 trades &middot; net +3 new positions</span>
+            </div>
+            <div style="font-size:12px;color:var(--t2);margin-bottom:12px;">User committed to aggressive tilt targeting <strong>+80% by end of October</strong> with a hard <strong>-20% floor</strong>. Cut 2 underperformers + trimmed 1, deployed $2,200 into 4 high-conviction AI/nuclear-power swing trades. Kept defensives (BRK.B, UNH) as anchor floor.</div>
+            <ul class="il" style="margin:0;">
+                <li><span class="neg">SELL</span><div><strong>SMMT — full exit, 13.25 sh @ $13.02 (-$52.47 realized).</strong> ASCO Plenary catalyst (May 31) passed with no positive follow-through. Dead money. Redeploy.</div></li>
+                <li><span class="neg">SELL</span><div><strong>HLI — full exit, 5.66 sh @ $125.49 (-$89.60 realized).</strong> Flat for 4 months, no catalyst. Not a thesis failure — opportunity-cost decision. Financials/M&amp;A sector cold.</div></li>
+                <li><span style="color:var(--yellow);">TRIM</span><div><strong>META — sold 1.50 of 3.53 sh @ $556.71 (-$100.08 realized).</strong> AI capex overhang persisted. Kept 2.03 sh core exposure; freed capital for higher-conviction swing trades.</div></li>
+                <li><span class="pos">BUY</span><div><strong>NBIS — 3.68 sh @ $190.41 ($700.71).</strong> Highest-momentum leg. $1B Reflection AI deal just signed. Q1 rev +684% YoY. $50B backlog. Sized 5% of book. Hard stop $150.</div></li>
+                <li><span class="pos">BUY</span><div><strong>NVDA — 2.99 sh @ $200.75 ($600.24).</strong> Positioning for Aug 26 earnings ($91B expected). Every AI theme flows through NVDA. Hard stop $170.</div></li>
+                <li><span class="pos">BUY</span><div><strong>TLN — 1.50 sh @ $334.10 ($501.15).</strong> Nuclear+AI power. Just signed 1,920 MW to AWS through 2042. Pulled back from $451 = better entry. Hard stop $290.</div></li>
+                <li><span class="pos">BUY</span><div><strong>VST — 2.70 sh @ $148.19 ($400.11).</strong> Companion to TLN, same theme. Diversifies the nuclear bet. Hard stop $130.</div></li>
+                <li><span style="color:var(--t3);">HOLD</span><div><strong>MU, OPFI, EVER (huge winner +67%), GOOGL, POWL, PANW (+80%), BRK.B, UNH</strong> — winners let run; defensives stay as anchor.</div></li>
+                <li><span style="color:var(--cyan);">CASH</span><div><strong>$27.15 remaining</strong> — fully deployed except rounding. Freed capital ~$1,718 + prior cash $511 = $2,229 total. Deployed $2,202. Cash mostly out of the way.</div></li>
+            </ul>
+            <div style="font-size:11px;color:var(--t3);margin-top:12px;border-top:1px solid var(--border);padding-top:10px;line-height:1.7;">
+                <strong>Structure after rebalance:</strong> 13 open positions. AI/tech ~50%, Nuclear/AI power ~7% (new), Fintech/InsurTech ~28%, Defensive anchor ~2.7%, Cash ~0.2%.
+                <br><strong>Realized P&amp;L:</strong> $76.07 → <span style="color:var(--red);">-$166.08</span> (rebalance took capital losses on 3 exits — expected).
+                <br><strong>Hard rules in effect:</strong> Any position -15% from entry → exit. Portfolio drops to $10,160 → defensive mode. NVDA earnings Aug 26 is the near-term make-or-break.
+                <br><strong>Next watchlist:</strong> ORCL &lt;$125, ANET &lt;$160, AVGO &lt;$360, CEG &lt;$240 for opportunistic adds.
+            </div>
+        </div>
+
         <!-- ══════════════════════════════════════════════════════════════════ -->
         <!-- LIVE TODAY PANEL — auto-generated from live Stooq prices on EVERY -->
         <!-- page load. Re-evaluates every rule (20% cap, +100% rule, stops).  -->
@@ -877,15 +903,17 @@ const PAGE_BUILD_TIME = '2026-07-31T22:31:37Z'; // replaced by the GitHub Action
 // May 10 (later): Cash deployment — BRK.B ($171.34) + UNH ($170.99) = $342.33 used
 // May 14: MU trim #3 (+$114.91) — back over 20% cap again after $803.63 close
 // May 15: CEG stop-loss exit (-$54.39) — closed $267.20, below the $272.89 stop
-const REALIZED_PNL = 76.07;         // Cumulative net realized P&L through May 15 ($130.46 − $54.39)
-const CASH_BALANCE = 511.50;        // $241.63 prior + $269.87 from May 15 CEG stop-loss exit
+// Aug 3: Full rebalance — SELL SMMT (-$52), SELL HLI (-$90), TRIM META (-$100) → -$242 realized
+//        BUY NBIS $701, NVDA $600, TLN $501, VST $400 = $2,202 deployed for aggressive AI/nuclear tilt
+const REALIZED_PNL = -166.08;       // Cumulative through Aug 3 ($76.07 − $242.15 from rebalance sells)
+const CASH_BALANCE = 27.15;         // Cash after full rebalance deployment
 const STARTING_CAPITAL = 10000;     // Original $10K invested at inception (Apr 13, 2026)
 
 // ══════════════════════════════════════
 //         LIVE PRICE FETCHER
 // ══════════════════════════════════════
 // Tickers tracked across all three portfolios
-const ALL_TICKERS = ['MU','FSLR','ALGN','UBER','NVDA','CRM','META','AMZN','LLY','GOOGL','QFIN','INR','HLI','IREN','LMB','EVER','VIST','OPFI','POWL','PAHC','PANW','CEG','SMMT','BRK-B','UNH'];
+const ALL_TICKERS = ['MU','FSLR','ALGN','UBER','NVDA','CRM','META','AMZN','LLY','GOOGL','QFIN','INR','HLI','IREN','LMB','EVER','VIST','OPFI','POWL','PAHC','PANW','CEG','SMMT','BRK-B','UNH','NBIS','TLN','VST'];
 
 // Status pill in top-right corner
 const _liveStatus = document.createElement('div');
@@ -1451,8 +1479,8 @@ const portfolio = [
    why:'Most asymmetric risk/reward in the portfolio. At $7.96, a move to the $15.47 analyst target nearly doubles your money (+94%). Forward P/E of just 4.5x — extreme value. FY26 EPS guidance was just raised to $1.76-$1.84. Both covering analysts rate Buy. Small position size ($1,500) manages the micro-cap risk.',
    about:'OppFi is a fintech platform that provides accessible financial products to everyday consumers. They use AI-driven underwriting to offer credit to the 60M+ Americans underserved by traditional banks. Headquartered in Chicago, IL. Founded 2012. The company focuses on responsible lending with transparent terms — positioned in the growing "credit access" fintech niche.',
    week:[8.20,8.10,7.85,8.05,7.90,8.00,7.96]},
-  {t:'META',name:'Meta Platforms', invested:1500, buyPrice:623.43, shares:3.53, buyDate:'Apr 11 + May 4', currentPrice:556.71, target:834.74, color:'#3b82f6', catalyst:'Q2 print + AI capex digestion',
-   why:'ADDED May 4 (+1.15 shares @ $608.745, $700.06 deployed). Q1 print Apr 30 BEAT: EPS $10.44 vs $8.15 est, revenue $56.3B (+33% YoY), 3.56B DAUs. Stock dropped ~10% on capex guide raised to $125-145B — that\'s the AI buildout, not a problem. Buying the panic on quality. Weighted avg cost basis now $623.43.',
+  {t:'META',name:'Meta Platforms', invested:1500, buyPrice:623.43, shares:2.03, soldShares:1.50, sellPrice:556.71, buyDate:'Apr 11 + May 4', sellDate:'Aug 3', currentPrice:556.71, target:834.74, color:'#3b82f6', catalyst:'Kept core through Q2 capex overhang',
+   why:'TRIMMED Aug 3, 2026 — sold 1.50 sh @ $556.71 (-$100.08 realized on trimmed slice). Original ADD May 4 on Q1 beat + capex-fear pullback thesis worked initially, but position drifted 10% below cost as AI capex overhang persisted with no clear catalyst. Kept 2.03 sh core exposure — thesis intact long-term, but concentrated capital freed for higher-conviction AI infra swing trades (NBIS, NVDA, TLN, VST) in aggressive Aug 3 rebalance.',
    about:'Meta Platforms (formerly Facebook) operates the world\'s largest social media ecosystem: Facebook (3B+ users), Instagram (2B+), WhatsApp (2B+), and Messenger. Revenue comes primarily from digital advertising. Also investing heavily in AI (LLaMA models) and Reality Labs (VR/AR). HQ in Menlo Park, CA. Founded 2004 by Mark Zuckerberg. ~87,000 employees.',
    week:[648.00,640.20,625.80,638.50,622.40,630.52,630.52]},
   // QFIN — fully exited May 4, kept in table per request to preserve trade history.
@@ -1472,8 +1500,8 @@ const portfolio = [
    why:'ADDED May 4 (+27.6 shares @ $14.49, $399.92 deployed). Down 6% from original entry with thesis fully intact: 100% Buy consensus, 7.7x forward P/E, 86% upside to $27 target. Conviction add on weakness — not chasing. Weighted avg cost now $15.13.',
    about:'EverQuote operates the largest online marketplace for insurance in the United States. They connect consumers shopping for auto, home, renters, health, and life insurance with carriers and agents. The platform uses data-driven matching to pair consumers with the right coverage. Revenue comes from referral fees paid by insurance providers. HQ in Cambridge, MA. Founded 2011. Serves as a digital bridge in the $1T+ US insurance market.',
    week:[16.00,15.80,15.20,15.60,15.30,15.45,15.40]},
-  {t:'HLI', name:'Houlihan Lokey', invested:800, buyPrice:141.32, shares:5.66, buyDate:'Apr 11', currentPrice:125.49, target:201.14, color:'#a855f7', catalyst:'M&A deal flow',
-   why:'Goldman Sachs\' top stock pick for 2026 — with very little buzz or retail attention. Transaction activity surged 45% YoY. Revenue grew 25% to $2.39B in FY25. The #1 global M&A restructuring advisor. Forward P/E of 16.3x is reasonable for this quality. Goldman\'s $237 target implies 67% upside. Smaller $800 position manages the financial sector cyclicality risk.',
+  {t:'HLI', name:'Houlihan Lokey', invested:800, buyPrice:141.32, shares:0, soldShares:5.66, sellPrice:125.49, buyDate:'Apr 11', sellDate:'Aug 3', currentPrice:125.49, target:201.14, color:'#a855f7', catalyst:'EXITED Aug 3 — no catalyst',
+   why:'EXITED Aug 3, 2026 — sold full 5.66 sh @ $125.49 (-$89.60 realized). Position was flat-to-negative for 4 months with no near-term catalyst in sight; financials/M&A sector remained cold. Goldman still likes it long-term but capital was underperforming vs freed-up alternatives. Redeployed proceeds into aggressive AI infrastructure names (NBIS, NVDA, TLN, VST) as part of Aug 3 rebalance targeting +80% by Oct 31. Not a thesis failure — just an opportunity-cost decision.',
    about:'Houlihan Lokey is a leading global independent investment bank specializing in M&A advisory, restructuring, and financial advisory services. They are ranked #1 globally in M&A restructuring and among the top firms for fairness opinions. Clients include corporations, institutions, and governments. HQ in Los Angeles, CA. Founded 1972. ~2,800 employees across 25+ offices worldwide. Known for middle-market expertise where deals are less commoditized.'},
   // ── Added May 5, 2026 ── 3 new positions to satisfy 10-stock minimum and fill sector gaps (cybersecurity, AI power generation, biotech catalyst).
   {t:'PANW',name:'Palo Alto Networks', invested:0, buyPrice:184.56, shares:2.17, buyDate:'May 5', currentPrice:331.83, target:205.96, color:'#ef4444', catalyst:'Q3 FY26 earnings May',
@@ -1484,8 +1512,8 @@ const portfolio = [
    why:'EXITED May 15, 2026 — sold full 1.01 shares @ $267.20 (-$54.39 realized). On May 14 we pre-committed in writing: "if CEG breaks $273, exit." It closed $267.20, below the $272.89 stop level (15% under the $321.05 cost basis). Rule-driven exit, not a panic reaction — the stop did exactly its job: capped the loss at a small, contained -$54. AI-power-gen thesis intact long-term, but discipline says honor the stop. Can re-enter later if it stabilizes and re-confirms.',
    about:'Constellation Energy is the largest producer of carbon-free electricity in the US, primarily from a fleet of 21 nuclear reactors. Spun off from Exelon in 2022. HQ in Baltimore, MD. Has signed multi-billion-dollar PPAs with hyperscalers (Microsoft, Meta) for direct nuclear-powered data center capacity. Restarting Three Mile Island Unit 1 for Microsoft is the bellwether deal.',
    week:[315.20,318.40,320.10,319.50,322.80,321.40,321.05]},
-  {t:'SMMT',name:'Summit Therapeutics', invested:0, buyPrice:16.98, shares:13.25, buyDate:'May 5', currentPrice:13.02, target:31.10, stopLoss:14.43, color:'#ec4899', catalyst:'ASCO Plenary May 31',
-   why:'ADDED May 5 — high-asymmetry biotech. 12 buys / 4 holds; consensus target $31.10 = ~83% upside. Two near-term catalysts: HARMONi-6 OS data at ASCO Plenary May 31, and FDA PDUFA Nov 14 for ivonescimab in EGFR-mutated NSCLC. Sized small ($225) because biotech catalysts are binary — limit downside, let it run on a positive readout.',
+  {t:'SMMT',name:'Summit Therapeutics', invested:0, buyPrice:16.98, shares:0, soldShares:13.25, sellPrice:13.02, buyDate:'May 5', sellDate:'Aug 3', currentPrice:13.02, target:31.10, stopLoss:14.43, color:'#ec4899', catalyst:'EXITED Aug 3 — catalyst drag',
+   why:'EXITED Aug 3, 2026 — sold full 13.25 sh @ $13.02 (-$52.47 realized). ASCO Plenary catalyst (May 31) passed with no material positive follow-through; stock drifted below cost and never recovered. Free capital redirected to higher-momentum AI infrastructure names (NBIS, NVDA, TLN, VST) as part of aggressive rebalance targeting +80% by Oct 31. Biotech thesis intact long-term but binary catalyst has already played out — no reason to hold dead money.',
    about:'Summit Therapeutics is a clinical-stage biotech focused on oncology. Lead asset ivonescimab is a bispecific antibody targeting PD-1 and VEGF, licensed from China-based Akeso. Lung cancer franchise is the primary value driver, with multiple Phase 3 readouts in 2026. HQ in Miami, FL. Founded 2003. The HARMONi readouts will define whether ivonescimab can challenge Keytruda\'s dominance.',
    week:[15.20,15.80,16.30,16.10,16.80,17.10,16.98]},
   // ── Added May 10, 2026 ── 2 defensive diversifiers funded by deploying the prior $342.87 cash buffer.
@@ -1493,6 +1521,22 @@ const portfolio = [
    why:'ADDED May 10 — the ultimate diversifier. Multi-sector conglomerate (insurance, BNSF railroad, Berkshire Hathaway Energy, manufacturing, retail) with massive embedded T-bill hoard (~$300B+). Lowest beta among mega-caps. Provides downside protection AND a built-in cash position WITHOUT the explicit cash drag. Solves the "no cash" preference. ~$172 sized — 1.4% of book — small but represents a defensive anchor we can grow on weakness.',
    about:'Berkshire Hathaway is a multinational conglomerate holding company controlled by Warren Buffett and Greg Abel. Owns wholly-owned businesses (GEICO, BNSF Railway, Berkshire Hathaway Energy, See\'s Candies, Dairy Queen, etc.) and major equity stakes (Apple, Coca-Cola, American Express, Bank of America, Chevron, etc.). HQ in Omaha, NE. Class B shares were created 1996 to give smaller investors fractional access to the original A shares. ~360,000 employees across subsidiaries.',
    week:[470.20,471.85,473.10,472.40,474.50,475.30,475.94]},
+  {t:'NBIS', name:'Nebius Group', invested:0, buyPrice:190.41, shares:3.68, buyDate:'Aug 3', currentPrice:190.41, target:270.00, stopLoss:150.00, color:'#8b5cf6', catalyst:'AI compute deals + Q3 print',
+   why:'ADDED Aug 3, 2026 — HIGHEST-MOMENTUM leg of the aggressive rebalance. Just signed $1B multi-year AI compute deal with Reflection AI. Q1 revenue +684% YoY. $50B contracted backlog anchored by Microsoft & Meta. FY26 revenue guide $3.4B (+550%). High-beta neocloud AI infrastructure play — double-digit daily moves are normal. Sized $700 (~5% of book) as a swing-trade momentum position, not a long-term hold. Hard stop $150 (~21% below entry) protects against volatility blow-ups.',
+   about:'Nebius Group is a Netherlands-listed AI cloud infrastructure company that spun out from the Yandex breakup in 2024. Operates GPU-based AI compute for machine learning training and inference, serving hyperscalers and AI startups. Building out data centers in Finland, Iceland, France, and the US. HQ Amsterdam. Considered one of the top pure-play "neocloud" AI infrastructure names outside the mega-cap hyperscalers.',
+   week:[180.20,183.50,178.90,185.40,188.10,192.30,190.41]},
+  {t:'NVDA', name:'NVIDIA Corp', invested:0, buyPrice:200.75, shares:2.99, buyDate:'Aug 3', currentPrice:200.75, target:260.00, stopLoss:170.00, color:'#22c55e', catalyst:'Aug 26 earnings — expected $91B rev',
+   why:'ADDED Aug 3, 2026 — positioning ahead of the biggest catalyst of Q3. NVDA reports Aug 26, 2026 with analysts expecting $91B in quarterly revenue. Every AI theme flows through NVDA — if the AI capex narrative is intact, NVDA beats and stock re-rates. Sized $600 (~5% of book) as a defined-risk earnings play. Hard stop $170 (~15% below entry) — if NVDA breaks pre-earnings, something bigger is wrong and we exit.',
+   about:'NVIDIA is the dominant global supplier of GPUs and AI accelerators. Its H100/H200/Blackwell chips are the foundation of nearly every large AI training cluster (OpenAI, Anthropic, Meta, Microsoft, Google). Data Center segment is >90% of revenue and growing 100%+. HQ Santa Clara, CA. Founded 1993 by Jensen Huang. The single most important company in the AI supply chain.',
+   week:[195.20,198.10,196.30,201.50,199.80,202.40,200.75]},
+  {t:'TLN', name:'Talen Energy', invested:0, buyPrice:334.10, shares:1.50, buyDate:'Aug 3', currentPrice:334.10, target:450.00, stopLoss:290.00, color:'#f59e0b', catalyst:'AWS 1,920 MW deal execution',
+   why:'ADDED Aug 3, 2026 — nuclear + AI power theme, one of the cleanest picks-and-shovels bets for the AI buildout. Just signed 1,920 MW carbon-free nuclear PPA with AWS through 2042 (announced June 11). Pulled back from $451 52w high to $334 = better entry. Sized $500 (~4% of book). Hard stop $290 (~13% below, near 52w low). Target $420-450 (retest of highs).',
+   about:'Talen Energy is an independent power producer operating the Susquehanna nuclear station in Pennsylvania — one of the largest nuclear plants in the US. Also runs gas + coal generation. Emerged from bankruptcy in 2023 with clean balance sheet. HQ Houston, TX. The AWS PPA validates the "nuclear directly powers AI data centers" thesis — expects more hyperscaler deals over 2026-2027.',
+   week:[340.20,345.60,338.10,336.80,332.40,335.50,334.10]},
+  {t:'VST', name:'Vistra Corp', invested:0, buyPrice:148.19, shares:2.70, buyDate:'Aug 3', currentPrice:148.19, target:210.00, stopLoss:130.00, color:'#f97316', catalyst:'Hyperscaler power deals',
+   why:'ADDED Aug 3, 2026 — companion to TLN, same nuclear+AI power theme but with gas exposure too. Pulled back from $220 52w high. Sized $400 (~3% of book) to diversify the nuclear-power bet across two names. Hard stop $130 (~12% below). Target $200-220 (retest of highs). Both TLN and VST should move together on any positive AI-data-center power news.',
+   about:'Vistra is the largest competitive power generator in the US, with a mix of nuclear (via 2024 acquisition of Energy Harbor), natural gas, coal, and renewables. Retail electricity business (TXU) provides steady cash flow. HQ Irving, TX. Multiple hyperscaler discussions reportedly in progress for direct-to-datacenter power supply — expected to announce deals in 2026-2027.',
+   week:[152.30,150.80,148.60,146.20,149.10,150.40,148.19]},
   {t:'UNH', name:'UnitedHealth Group', invested:0, buyPrice:379.98, shares:0.45, buyDate:'May 10', currentPrice:414.40, target:475.00, color:'#0ea5e9', catalyst:'Q2 print + DOJ overhang resolution',
    why:'ADDED May 10 — contrarian healthcare value. Largest US health insurer (UnitedHealthcare) + #1 PBM (OptumRx) + Optum Health/Insight services. Beat-down hard in 2025 on regulatory worries (DOJ Medicare Advantage probe + cyber incident overhang) — at $380, valuation is ~13x forward earnings, well below long-term avg. Healthcare = inelastic demand; defensive in any economic cycle. Fills the ZERO healthcare exposure gap in the book. ~$171 sized — small starter; can build on further weakness.',
    about:'UnitedHealth Group is the largest US healthcare company by revenue. Two segments: UnitedHealthcare (insurance — commercial, Medicare Advantage, Medicaid) and Optum (Optum Health clinics, OptumRx PBM, Optum Insight analytics/tech). Revenue ~$400B+. HQ in Minnetonka, MN. ~440,000 employees. Sells health insurance to ~50M Americans. Dominant scale moat in claims processing and provider networks.',
@@ -1555,7 +1599,17 @@ portfolio.forEach((p,i)=>{
     } else {
         investedCell = `$${p.invested.toLocaleString()}`;
     }
-    ltb.innerHTML += `<tr style="${rowOpacity}">
+    // Build hover tooltip content — shows WHY the current action/state exists for this position
+    const whyEscaped = (p.why || 'No note available.').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+    const statusLine = isClosed
+        ? `<strong style="color:#ef4444;font-size:13px;">✕ EXITED ${sellDate || ''} @ $${(p.sellPrice||0).toFixed(2)}</strong>`
+        : soldShares > 0
+            ? `<strong style="color:#eab308;font-size:13px;">✂ TRIMMED ${sellDate || ''} — kept ${p.shares.toFixed(2)} sh</strong>`
+            : `<strong style="color:#22c55e;font-size:13px;">✓ HELD since ${buyDate}</strong>`;
+    const stopLine = p.stopLoss ? `<br><em style="color:#ef4444;">Hard stop: $${p.stopLoss.toFixed(2)}</em>` : '';
+    const explainHtml = `<strong style="color:#f1f5f9;font-size:14px;">${p.t} — ${p.name}</strong><hr>${statusLine}${stopLine}<hr><div style="color:#cbd5e1;">${p.why || 'No annotation.'}</div>`;
+
+    ltb.innerHTML += `<tr class="live-row" style="${rowOpacity}">
         <td>${i+1}</td>
         <td class="ticker clickable" onclick="showWhy(${i})">${p.t}${isClosed?' <span style="font-size:9px;color:var(--red);font-weight:700;">EXITED</span>':soldShares>0?' <span style="font-size:9px;color:var(--yellow);font-weight:700;">TRIMMED</span>':''}</td>
         <td class="clickable" style="color:var(--t2);" onclick="showAbout(${i})">${p.name}</td>
@@ -1570,7 +1624,9 @@ portfolio.forEach((p,i)=>{
         <td style="font-weight:700;color:${isClosed?'var(--t3)':pnlColor};">${isClosed?'<span style="color:var(--t3);">$0</span>':fmtMoney(val)}</td>
         <td style="color:${pnlColor};font-weight:700;">${fmtSigned(pnl)}</td>
         <td style="color:${pnlColor};font-weight:700;">${pnl>=0?'+':''}${pnlPct.toFixed(1)}%</td>
-        <td><span style="color:${statusColor};font-weight:700;">${statusIcon} ${statusText}</span></td>
+        <td style="position:relative;"><span style="color:${statusColor};font-weight:700;">${statusIcon} ${statusText}</span>
+            <div class="live-explain">${explainHtml}</div>
+        </td>
     </tr>`;
 });
 // Append a CASH row so total assets are visible and reconcile with $10K starting capital
