@@ -249,26 +249,39 @@ a{color:var(--blue);text-decoration:none;}a:hover{text-decoration:underline;}
         <div class="kpi" id="earnLossCard"><div class="lbl">Earn / Loss</div><div class="val" id="earnLossVal">$0</div><div class="sub" id="earnLossPct">0.00% vs $10K</div></div>
     </div>
 
-    <!-- Live Portfolio Table -->
-    <div class="section" style="overflow-x:auto;">
-        <h2><span class="dot" style="background:var(--green)"></span>Live Portfolio — Started April 13, 2026</h2>
+    <!-- ═══ CURRENT PORTFOLIO — What You Own Today ═══ -->
+    <div class="section" style="overflow-x:auto;border-color:var(--green);">
+        <h2><span class="dot" style="background:var(--green)"></span>💼 Current Portfolio — What You Own Today</h2>
         <div style="font-size:12px;color:var(--t3);margin-bottom:14px;line-height:1.6;">
-            10 active positions + 1 closed (QFIN) + cash row = the full picture.
-            <br><strong style="color:var(--t2);">Invested column</strong> = original $10K allocation at inception (immutable, sums to exactly $10,000).
-            New positions show "$0 (recycled)" because they're funded from sell proceeds — not new external capital. Adds (META, EVER) show the recycled top-up beside the original.
-            <br><strong style="color:var(--t2);">Per-row P&amp;L</strong> = sell proceeds + current value − total cost basis (the actual money tied up).
-            <strong style="color:var(--t2);">Total P&amp;L</strong> at the bottom = open position value + cash − $10,000.
+            <strong style="color:var(--green);">Active positions only</strong> — the stocks currently in your book. Hover any row to see the WHY behind the current status. Closed/exited positions moved to the "Trade History" table below.
         </div>
         <table class="stock-table" id="investTable">
             <thead><tr>
                 <th>#</th><th>Ticker</th><th>Company</th><th>Invested</th><th>Shares</th>
                 <th>Buy Date</th><th>Buy Price</th><th>Value Buy</th>
-                <th>Sell Date</th><th>Sell Price</th><th>Value Sell</th>
                 <th>Current</th><th id="valueNowHdr">Value Now</th><th>P&L $</th><th>P&L %</th>
                 <th>Status</th>
             </tr></thead>
             <tbody id="liveTableBody"></tbody>
             <tfoot><tr id="liveTableFoot" style="background:rgba(255,255,255,.03);font-weight:700;"></tr></tfoot>
+        </table>
+    </div>
+
+    <!-- ═══ TRADE HISTORY — Closed / Exited Positions ═══ -->
+    <div class="section" style="overflow-x:auto;border-color:var(--yellow);">
+        <h2><span class="dot" style="background:var(--yellow)"></span>📜 Trade History — What We Bought, What We Sold, How Much We Made or Lost</h2>
+        <div style="font-size:12px;color:var(--t3);margin-bottom:14px;line-height:1.6;">
+            Every position that's been fully closed. Shows entry → exit → realized P&L. Green rows = profitable trades. Red rows = losses. Hover any row for the full context.
+        </div>
+        <table class="stock-table" id="historyTable">
+            <thead><tr>
+                <th>#</th><th>Ticker</th><th>Company</th>
+                <th>Entry</th><th>Buy $</th><th>Shares</th><th>Invested</th>
+                <th>Exit</th><th>Sell $</th><th>Proceeds</th>
+                <th>Realized $</th><th>Realized %</th><th>What Happened</th>
+            </tr></thead>
+            <tbody id="historyTableBody"></tbody>
+            <tfoot><tr id="historyTableFoot" style="background:rgba(234,179,8,.06);font-weight:700;"></tr></tfoot>
         </table>
     </div>
 
@@ -1584,9 +1597,13 @@ const today = new Date();
 const dayNum = Math.max(0, Math.floor((today - startDate) / 86400000));
 document.getElementById('dayCount').textContent = 'Day ' + dayNum;
 
-// Render live table
+// Render current-portfolio (open positions) + history (closed positions) tables
 const ltb = document.getElementById('liveTableBody');
+const htb = document.getElementById('historyTableBody');
 let totalInvested=0, totalValue=0, totalTarget=0, totalCostBasis=0, totalCostBasisOpen=0;
+let histRealizedTotal=0, histInvestedTotal=0, histProceedsTotal=0;
+let rowCounter = 0, histCounter = 0;
+
 portfolio.forEach((p,i)=>{
     const soldShares = p.soldShares || 0;
     const sellPrice = p.sellPrice || 0;
@@ -1594,31 +1611,68 @@ portfolio.forEach((p,i)=>{
     const valueBuy = origShares * p.buyPrice;                 // total $ paid for any shares ever owned (cost basis)
     const valueSell = soldShares * sellPrice;                 // proceeds from sells
     const val = p.shares * p.currentPrice;                    // current value of remaining shares
-    // P&L vs ACTUAL COST BASIS (not original allocation $) — handles adds & recycled-cash buys correctly
     const costBasis = valueBuy;
     const pnl = valueSell + val - costBasis;
     const pnlPct = costBasis > 0 ? (pnl / costBasis * 100) : 0;
     const isClosed = p.shares === 0;
-    const toTarget = isClosed ? 0 : ((p.target - p.currentPrice) / p.currentPrice * 100);
-    totalInvested += p.invested;                               // sums to $10,000 (immutable original allocation)
-    totalValue += val;                                         // mark-to-market on OPEN positions only
-    totalCostBasis += costBasis;                               // sum of actual $ paid for any shares ever held
-    totalCostBasisOpen += (p.shares || 0) * p.buyPrice;        // cost basis on REMAINING (not sold) shares
+    totalInvested += p.invested;
+    totalValue += val;
+    totalCostBasis += costBasis;
+    totalCostBasisOpen += (p.shares || 0) * p.buyPrice;
     totalTarget += p.shares * p.target;
     const pnlColor = pnl >= 0 ? 'var(--green)' : 'var(--red)';
-    let statusIcon, statusText, statusColor;
-    if (isClosed) {
-        statusIcon = '&#10005;'; statusText = 'CLOSED'; statusColor = 'var(--t3)';
-    } else {
-        statusIcon = pnl > 0 ? '&#9650;' : pnl < 0 ? '&#9660;' : '&#9644;';
-        statusText = dayNum === 0 ? 'ENTRY' : (pnl > 0 ? 'UP' : pnl < 0 ? 'DOWN' : 'FLAT');
-        statusColor = dayNum === 0 ? 'var(--cyan)' : pnlColor;
-    }
     const fmtMoney = n => (n < 0 ? '-$' + Math.abs(n).toFixed(0) : '$' + n.toFixed(0));
     const fmtSigned = n => (n > 0 ? '+$' + n.toFixed(0) : n < 0 ? '-$' + Math.abs(n).toFixed(0) : '$0');
-    const rowOpacity = isClosed ? 'opacity:.6;' : '';
     const buyDate = p.buyDate || '—';
     const sellDate = p.sellDate || '';
+
+    // ════════════════════════════════════════════════════════════════════
+    // Route: CLOSED positions go to the HISTORY table
+    // ════════════════════════════════════════════════════════════════════
+    if (isClosed && soldShares > 0) {
+        histCounter++;
+        const proceeds = soldShares * sellPrice;
+        const invested_h = soldShares * p.buyPrice;
+        const realized = proceeds - invested_h;
+        const realizedPct = invested_h > 0 ? (realized / invested_h * 100) : 0;
+        histRealizedTotal += realized;
+        histInvestedTotal += invested_h;
+        histProceedsTotal += proceeds;
+        const rc = realized >= 0 ? 'var(--green)' : 'var(--red)';
+        const arrow = realized >= 0 ? '&#9650;' : '&#9660;';
+        const rowBg = realized >= 0 ? 'background:rgba(34,197,94,.04);' : 'background:rgba(239,68,68,.04);';
+        // Short "what happened" description — pull first sentence of the why text
+        const shortReason = ((p.why || '').split('.')[0] || '').slice(0, 90) + '…';
+        const explainHtml_h = `<strong style="color:#f1f5f9;font-size:14px;">${p.t} — ${p.name}</strong><hr><strong style="color:#ef4444;">✕ EXITED ${sellDate} @ $${sellPrice.toFixed(2)}</strong><hr><div style="color:#cbd5e1;">${p.why || 'No annotation.'}</div>`;
+        htb.innerHTML += `<tr class="live-row" style="${rowBg}">
+            <td>${histCounter}</td>
+            <td class="ticker clickable" style="color:${p.color};font-weight:700;" onclick="showWhy(${i})">${p.t}</td>
+            <td class="clickable" style="color:var(--t2);" onclick="showAbout(${i})">${p.name}</td>
+            <td style="color:var(--t2);font-size:11px;white-space:nowrap;">${buyDate}</td>
+            <td>$${p.buyPrice.toFixed(2)}</td>
+            <td>${soldShares.toFixed(2)}</td>
+            <td style="color:var(--t2);">$${invested_h.toFixed(0)}</td>
+            <td style="color:var(--yellow);font-size:11px;white-space:nowrap;">${sellDate}</td>
+            <td>$${sellPrice.toFixed(2)}</td>
+            <td style="color:var(--yellow);">$${proceeds.toFixed(0)}</td>
+            <td style="color:${rc};font-weight:700;">${arrow} ${fmtSigned(realized)}</td>
+            <td style="color:${rc};font-weight:700;">${realized>=0?'+':''}${realizedPct.toFixed(1)}%</td>
+            <td style="position:relative;font-size:11px;color:var(--t3);max-width:280px;">${shortReason}
+                <div class="live-explain">${explainHtml_h}</div>
+            </td>
+        </tr>`;
+        return; // skip the main table for closed positions
+    }
+
+    // ════════════════════════════════════════════════════════════════════
+    // Route: OPEN positions go to the CURRENT PORTFOLIO table
+    // ════════════════════════════════════════════════════════════════════
+    rowCounter++;
+    let statusIcon, statusText, statusColor;
+    statusIcon = pnl > 0 ? '&#9650;' : pnl < 0 ? '&#9660;' : '&#9644;';
+    statusText = dayNum === 0 ? 'ENTRY' : (pnl > 0 ? 'UP' : pnl < 0 ? 'DOWN' : 'FLAT');
+    statusColor = dayNum === 0 ? 'var(--cyan)' : pnlColor;
+
     // Invested cell: show original allocation. Annotate when costBasis differs (adds or recycled-cash buys).
     const addedAmt = costBasis - p.invested;
     let investedCell;
@@ -1629,29 +1683,23 @@ portfolio.forEach((p,i)=>{
     } else {
         investedCell = `$${p.invested.toLocaleString()}`;
     }
-    // Build hover tooltip content — shows WHY the current action/state exists for this position
-    const whyEscaped = (p.why || 'No note available.').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
-    const statusLine = isClosed
-        ? `<strong style="color:#ef4444;font-size:13px;">✕ EXITED ${sellDate || ''} @ $${(p.sellPrice||0).toFixed(2)}</strong>`
-        : soldShares > 0
-            ? `<strong style="color:#eab308;font-size:13px;">✂ TRIMMED ${sellDate || ''} — kept ${p.shares.toFixed(2)} sh</strong>`
-            : `<strong style="color:#22c55e;font-size:13px;">✓ HELD since ${buyDate}</strong>`;
+    // Hover tooltip
+    const statusLine = soldShares > 0
+        ? `<strong style="color:#eab308;font-size:13px;">✂ TRIMMED ${sellDate || ''} — kept ${p.shares.toFixed(2)} sh</strong>`
+        : `<strong style="color:#22c55e;font-size:13px;">✓ HELD since ${buyDate}</strong>`;
     const stopLine = p.stopLoss ? `<br><em style="color:#ef4444;">Hard stop: $${p.stopLoss.toFixed(2)}</em>` : '';
     const explainHtml = `<strong style="color:#f1f5f9;font-size:14px;">${p.t} — ${p.name}</strong><hr>${statusLine}${stopLine}<hr><div style="color:#cbd5e1;">${p.why || 'No annotation.'}</div>`;
 
-    ltb.innerHTML += `<tr class="live-row" style="${rowOpacity}">
-        <td>${i+1}</td>
-        <td class="ticker clickable" onclick="showWhy(${i})">${p.t}${isClosed?' <span style="font-size:9px;color:var(--red);font-weight:700;">EXITED</span>':soldShares>0?' <span style="font-size:9px;color:var(--yellow);font-weight:700;">TRIMMED</span>':''}</td>
+    ltb.innerHTML += `<tr class="live-row">
+        <td>${rowCounter}</td>
+        <td class="ticker clickable" onclick="showWhy(${i})">${p.t}${soldShares>0?' <span style="font-size:9px;color:var(--yellow);font-weight:700;">TRIMMED</span>':''}</td>
         <td class="clickable" style="color:var(--t2);" onclick="showAbout(${i})">${p.name}</td>
         <td>${investedCell}</td><td>${origShares.toFixed(2)}${soldShares>0?` <span style="font-size:10px;color:var(--t3);">(now ${p.shares.toFixed(2)})</span>`:''}</td>
         <td style="color:var(--t2);font-size:11px;white-space:nowrap;">${buyDate}</td>
         <td>$${p.buyPrice.toFixed(2)}</td>
         <td style="color:var(--t2);">$${valueBuy.toFixed(0)}</td>
-        <td style="color:${sellDate?'var(--yellow)':'var(--t3)'};font-size:11px;white-space:nowrap;">${sellDate||'—'}</td>
-        <td>${sellPrice>0?'$'+sellPrice.toFixed(2):'<span style="color:var(--t3);">—</span>'}</td>
-        <td style="color:${sellPrice>0?'var(--yellow)':'var(--t3)'};">${valueSell>0?'$'+valueSell.toFixed(0):'—'}</td>
-        <td style="font-weight:700;" class="clickable" onclick="showWeek(${i})">${isClosed?'<span style="color:var(--t3);">$'+p.currentPrice.toFixed(2)+'</span>':'$'+p.currentPrice.toFixed(2)}</td>
-        <td style="font-weight:700;color:${isClosed?'var(--t3)':pnlColor};">${isClosed?'<span style="color:var(--t3);">$0</span>':fmtMoney(val)}</td>
+        <td style="font-weight:700;" class="clickable" onclick="showWeek(${i})">$${p.currentPrice.toFixed(2)}</td>
+        <td style="font-weight:700;color:${pnlColor};">${fmtMoney(val)}</td>
         <td style="color:${pnlColor};font-weight:700;">${fmtSigned(pnl)}</td>
         <td style="color:${pnlColor};font-weight:700;">${pnl>=0?'+':''}${pnlPct.toFixed(1)}%</td>
         <td style="position:relative;"><span style="color:${statusColor};font-weight:700;">${statusIcon} ${statusText}</span>
@@ -1659,20 +1707,32 @@ portfolio.forEach((p,i)=>{
         </td>
     </tr>`;
 });
-// Append a CASH row so total assets are visible and reconcile with $10K starting capital
+// Append a CASH row so total assets are visible (13 columns matching new header)
 const _cashAmt = CASH_BALANCE;
 ltb.innerHTML += `<tr style="background:rgba(6,182,212,.04);font-style:italic;">
-    <td>${portfolio.length+1}</td>
+    <td>${rowCounter+1}</td>
     <td class="ticker" style="color:var(--cyan);">CASH</td>
     <td style="color:var(--t2);">Dry powder (un-deployed proceeds)</td>
     <td style="color:var(--t3);">—</td><td>—</td>
-    <td style="color:var(--t3);font-size:11px;">—</td><td>—</td><td style="color:var(--t3);">—</td>
     <td style="color:var(--t3);font-size:11px;">—</td><td>—</td><td style="color:var(--t3);">—</td>
     <td style="color:var(--cyan);font-weight:700;">$${_cashAmt.toFixed(2)}</td>
     <td style="color:var(--cyan);font-weight:700;">$${_cashAmt.toFixed(2)}</td>
     <td style="color:var(--t3);">—</td><td style="color:var(--t3);">—</td>
     <td><span style="color:var(--cyan);font-weight:700;">CASH</span></td>
 </tr>`;
+
+// History table totals footer
+const histTotRealizedColor = histRealizedTotal >= 0 ? 'var(--green)' : 'var(--red)';
+const histTotPct = histInvestedTotal > 0 ? (histRealizedTotal / histInvestedTotal * 100) : 0;
+const _histFoot = document.getElementById('historyTableFoot');
+if (_histFoot) _histFoot.innerHTML = `<td></td><td></td><td>TOTAL CLOSED</td>
+    <td></td><td></td><td></td>
+    <td style="color:var(--t1);">$${histInvestedTotal.toFixed(0)}</td>
+    <td></td><td></td>
+    <td style="color:var(--yellow);">$${histProceedsTotal.toFixed(0)}</td>
+    <td style="color:${histTotRealizedColor};font-size:15px;">${histRealizedTotal>=0?'+$':'-$'}${Math.abs(histRealizedTotal).toFixed(0)}</td>
+    <td style="color:${histTotRealizedColor};font-size:15px;">${histRealizedTotal>=0?'+':''}${histTotPct.toFixed(1)}%</td>
+    <td style="font-size:10px;color:var(--t3);">${histCounter} closed positions</td>`;
 
 const totalValueSell = portfolio.reduce((s,p) => s + ((p.soldShares||0) * (p.sellPrice||0)), 0);
 const totalValueBuyOrig = totalCostBasis;
@@ -1686,13 +1746,11 @@ const totalValueBuy = portfolio.reduce((s,p) => s + p.shares * p.buyPrice, 0);
 const _fmtSignedT = n => (n > 0 ? '+$' + n.toFixed(0) : n < 0 ? '-$' + Math.abs(n).toFixed(0) : '$0');
 const totalAssets = totalValue + _CASH;
 document.getElementById('liveTableFoot').innerHTML = `<td></td><td></td><td>TOTAL</td>
-    <td style="color:var(--t1);font-weight:800;">$${totalInvested.toLocaleString()}<div style="font-size:10px;font-weight:500;color:var(--t3);">starting capital</div></td><td></td>
+    <td style="color:var(--t1);font-weight:800;">$${totalInvested.toLocaleString()}<div style="font-size:10px;font-weight:500;color:var(--t3);">starting capital</div></td>
     <td></td>
     <td></td>
-    <td style="color:var(--t2);">$${totalValueBuyOrig.toFixed(0)}<div style="font-size:10px;color:var(--t3);">cost basis</div></td>
     <td></td>
-    <td></td>
-    <td style="color:var(--yellow);">${totalValueSell>0?'$'+totalValueSell.toFixed(0):'—'}<div style="font-size:10px;color:var(--t3);">sell proceeds</div></td>
+    <td style="color:var(--t2);">$${totalCostBasisOpen.toFixed(0)}<div style="font-size:10px;color:var(--t3);">cost basis open</div></td>
     <td></td>
     <td style="color:${totalPnlColor};font-size:15px;">$${totalValue.toFixed(0)}<div style="font-size:10px;color:var(--t3);font-weight:500;">+ $${_CASH.toFixed(0)} cash<br>= $${totalAssets.toFixed(0)} total</div></td>
     <td style="color:${totalPnlColor};font-size:15px;">${_fmtSignedT(totalPnl)}<div style="font-size:10px;color:var(--t3);font-weight:500;">vs $10K start</div></td>
