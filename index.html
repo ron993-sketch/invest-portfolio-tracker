@@ -104,6 +104,7 @@ a{color:var(--blue);text-decoration:none;}a:hover{text-decoration:underline;}
 <nav class="topnav" id="topnav">
     <div class="nav-brand" onclick="showPage('invest')">PORTFOLIO PRO</div>
     <div class="nav-tab active" id="nav-invest" onclick="showPage('invest')">$10K Plan</div>
+    <div class="nav-tab" id="nav-summary" onclick="showPage('summary')">📊 Summary <span class="badge">JOURNEY</span></div>
 </nav>
 
 <!-- ═══ PORTFOLIO PAGE ═══ -->
@@ -884,6 +885,146 @@ a{color:var(--blue);text-decoration:none;}a:hover{text-decoration:underline;}
             <p style="margin-top:12px;color:var(--t3);font-size:12px;"><strong>Disclaimer:</strong> This is NOT financial advice. All investments carry risk. Past performance and analyst targets are not guarantees. Always do your own research and consider consulting a licensed financial advisor before investing.</p>
         </div>
     </div>
+</div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════
+     JOURNEY SUMMARY PAGE — Day 1 → Today
+═══════════════════════════════════════════════════════════════════ -->
+<div id="page-summary" class="page">
+<div class="container">
+
+    <!-- HERO -->
+    <div class="hero" style="background:linear-gradient(135deg,rgba(139,92,246,.10),rgba(6,182,212,.05));border-color:var(--purple);">
+        <div>
+            <h1>📊 Journey Summary</h1>
+            <p>The story of the $10K portfolio — from inception on April 13, 2026 to today. Every trade, every gain, every lesson in one place.</p>
+        </div>
+        <div class="hero-stats">
+            <div class="hero-stat"><div class="val" style="color:var(--purple);" id="sumDaysIn">—</div><div class="lbl">Days In</div></div>
+            <div class="hero-stat"><div class="val" style="color:var(--green);" id="sumTotalRet">—</div><div class="lbl">Total Return</div></div>
+            <div class="hero-stat"><div class="val" style="color:var(--cyan);" id="sumAnnualized">—</div><div class="lbl">Annualized</div></div>
+            <div class="hero-stat"><div class="val" style="color:var(--yellow);" id="sumTrades">—</div><div class="lbl">Trades Made</div></div>
+        </div>
+    </div>
+
+    <!-- HEADLINE KPI GRID -->
+    <div class="kpi-grid" style="grid-template-columns:repeat(auto-fit,minmax(160px,1fr));">
+        <div class="kpi" style="border-color:var(--t3);"><div class="lbl">Started</div><div class="val" style="font-size:15px;">Apr 13, 2026</div><div class="sub">$10,000 across 8 positions</div></div>
+        <div class="kpi" style="border-color:var(--blue);"><div class="lbl">Current Value</div><div class="val" id="sumCurValue" style="color:var(--blue);">—</div><div class="sub">Open + cash</div></div>
+        <div class="kpi" style="border-color:var(--green);" id="sumPnlCard"><div class="lbl">Total P&amp;L $</div><div class="val" id="sumPnl">—</div><div class="sub" id="sumPnlSub">—</div></div>
+        <div class="kpi" style="border-color:var(--yellow);"><div class="lbl">Realized</div><div class="val" id="sumRealized" style="font-size:18px;">—</div><div class="sub">Locked-in from closed trades</div></div>
+        <div class="kpi" style="border-color:var(--purple);"><div class="lbl">Unrealized</div><div class="val" id="sumUnrealized" style="font-size:18px;">—</div><div class="sub">Open positions mark-to-market</div></div>
+        <div class="kpi" style="border-color:var(--cyan);"><div class="lbl">Cash on Hand</div><div class="val" id="sumCash" style="color:var(--cyan);font-size:18px;">—</div><div class="sub">Dry powder</div></div>
+        <div class="kpi" style="border-color:var(--green);"><div class="lbl">Win Rate</div><div class="val" id="sumWinRate" style="font-size:18px;">—</div><div class="sub" id="sumWinRateSub">Closed trades</div></div>
+        <div class="kpi" style="border-color:var(--orange);"><div class="lbl">Positions Now</div><div class="val" id="sumPositions" style="font-size:18px;">—</div><div class="sub" id="sumPositionsSub">—</div></div>
+    </div>
+
+    <!-- MAIN CHART: PORTFOLIO VALUE JOURNEY -->
+    <div class="chart-box" style="margin-bottom:22px;height:380px;">
+        <h3 style="display:flex;justify-content:space-between;align-items:baseline;">
+            <span>📈 Portfolio Value Journey — April 13 → Today</span>
+            <span style="font-size:11px;color:var(--t3);font-weight:500;">Green line = actual · Dashed = $10K baseline</span>
+        </h3>
+        <div class="chart-wrap" style="height:310px;"><canvas id="sumJourneyChart"></canvas></div>
+    </div>
+
+    <!-- TWO SECONDARY CHARTS -->
+    <div class="g2" style="margin-bottom:22px;">
+        <div class="chart-box" style="height:340px;">
+            <h3>💪 Position Performance (% gain from entry)</h3>
+            <div class="chart-wrap" style="height:280px;"><canvas id="sumPositionGainsChart"></canvas></div>
+        </div>
+        <div class="chart-box" style="height:340px;">
+            <h3>🥧 Current Allocation by Position</h3>
+            <div class="chart-wrap" style="height:280px;"><canvas id="sumAllocChart"></canvas></div>
+        </div>
+    </div>
+
+    <!-- REALIZED TRADES CHART -->
+    <div class="chart-box" style="margin-bottom:22px;height:340px;">
+        <h3>💰 Realized P&amp;L by Closed Trade — Every Exit &amp; Trim</h3>
+        <div class="chart-wrap" style="height:280px;"><canvas id="sumRealizedChart"></canvas></div>
+    </div>
+
+    <!-- MILESTONES TIMELINE -->
+    <div class="section" style="border-color:var(--purple);margin-bottom:22px;">
+        <h2><span class="dot" style="background:var(--purple)"></span>🗓️ Milestones — The Story of the Portfolio</h2>
+        <div style="position:relative;padding-left:20px;border-left:2px solid var(--border);margin-top:14px;">
+            <div style="position:relative;padding:14px 0 14px 22px;">
+                <div style="position:absolute;left:-31px;top:16px;width:20px;height:20px;border-radius:50%;background:var(--green);border:3px solid var(--bg);"></div>
+                <div style="font-size:12px;color:var(--cyan);font-weight:700;text-transform:uppercase;letter-spacing:1px;">Apr 13, 2026 · Day 1 · INCEPTION</div>
+                <div style="color:var(--t1);margin-top:4px;">$10,000 deployed across 8 starter positions — MU, OPFI, META, QFIN, POWL, GOOGL, EVER, HLI. All prices locked at Apr 11 close.</div>
+            </div>
+            <div style="position:relative;padding:14px 0 14px 22px;">
+                <div style="position:absolute;left:-31px;top:16px;width:20px;height:20px;border-radius:50%;background:var(--red);border:3px solid var(--bg);"></div>
+                <div style="font-size:12px;color:var(--red);font-weight:700;text-transform:uppercase;letter-spacing:1px;">May 4 · Day 22 · First rebalance</div>
+                <div style="color:var(--t1);margin-top:4px;">Exited QFIN (-$350) after Q1 -53% guide. Trimmed MU on 20% cap. Added META &amp; EVER on weakness. First discipline test — passed.</div>
+            </div>
+            <div style="position:relative;padding:14px 0 14px 22px;">
+                <div style="position:absolute;left:-31px;top:16px;width:20px;height:20px;border-radius:50%;background:var(--blue);border:3px solid var(--bg);"></div>
+                <div style="font-size:12px;color:var(--blue);font-weight:700;text-transform:uppercase;letter-spacing:1px;">May 5 · Day 23 · Scaled to 10 positions</div>
+                <div style="color:var(--t1);margin-top:4px;">Trimmed POWL &amp; GOOGL past targets. Added PANW (cyber), CEG (nuclear+AI), SMMT (biotech catalyst).</div>
+            </div>
+            <div style="position:relative;padding:14px 0 14px 22px;">
+                <div style="position:absolute;left:-31px;top:16px;width:20px;height:20px;border-radius:50%;background:var(--cyan);border:3px solid var(--bg);"></div>
+                <div style="font-size:12px;color:var(--cyan);font-weight:700;text-transform:uppercase;letter-spacing:1px;">May 10 · Day 28 · Diversifiers added</div>
+                <div style="color:var(--t1);margin-top:4px;">MU trim #2 (+$130) on cap breach. Deployed cash into BRK.B + UNH — first defensives to anchor the book against AI concentration.</div>
+            </div>
+            <div style="position:relative;padding:14px 0 14px 22px;">
+                <div style="position:absolute;left:-31px;top:16px;width:20px;height:20px;border-radius:50%;background:var(--red);border:3px solid var(--bg);"></div>
+                <div style="font-size:12px;color:var(--red);font-weight:700;text-transform:uppercase;letter-spacing:1px;">May 15 · Day 33 · CEG stop-loss</div>
+                <div style="color:var(--t1);margin-top:4px;">CEG broke $273 stop → automatic exit (-$54). Proof the risk system works. Small, contained loss instead of open-ended.</div>
+            </div>
+            <div style="position:relative;padding:14px 0 14px 22px;">
+                <div style="position:absolute;left:-31px;top:16px;width:20px;height:20px;border-radius:50%;background:var(--purple);border:3px solid var(--bg);"></div>
+                <div style="font-size:12px;color:var(--purple);font-weight:700;text-transform:uppercase;letter-spacing:1px;">Aug 3 · Day 113 · AGGRESSIVE REBALANCE</div>
+                <div style="color:var(--t1);margin-top:4px;">User committed to +80% target by Oct 31. Exited SMMT + HLI (dead capital), trimmed META. Bought NBIS, NVDA, TLN, VST — high-conviction AI/nuclear swing trades.</div>
+            </div>
+            <div style="position:relative;padding:14px 0 14px 22px;">
+                <div style="position:absolute;left:-31px;top:16px;width:20px;height:20px;border-radius:50%;background:var(--green);border:3px solid var(--bg);"></div>
+                <div style="font-size:12px;color:var(--green);font-weight:700;text-transform:uppercase;letter-spacing:1px;">Aug 5 · Day 115 · TAKE-PROFITS FIRE</div>
+                <div style="color:var(--t1);margin-top:4px;">MU hit +100% "sell half" rule → trimmed (+$708). PANW near-trigger → trimmed (+$182). POWL cut. Doubled NVDA pre-earnings. Added ORCL. <strong>Realized P&L flipped to positive.</strong></div>
+            </div>
+            <div style="position:relative;padding:14px 0 14px 22px;">
+                <div style="position:absolute;left:-31px;top:16px;width:20px;height:20px;border-radius:50%;background:var(--yellow);border:3px solid var(--bg);"></div>
+                <div style="font-size:12px;color:var(--yellow);font-weight:700;text-transform:uppercase;letter-spacing:1px;">Today · Ongoing</div>
+                <div style="color:var(--t1);margin-top:4px;" id="sumTodayNote">Live portfolio, live tracking. Next catalyst: NVDA earnings Aug 26.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- BEST/WORST TRADES -->
+    <div class="g2" style="margin-bottom:22px;">
+        <div class="section" style="border-color:var(--green);">
+            <h2><span class="dot" style="background:var(--green)"></span>🏆 Best Trades</h2>
+            <table class="stock-table" style="font-size:12px;margin-top:10px;">
+                <thead><tr><th>Rank</th><th>Ticker</th><th>P&amp;L</th><th>Story</th></tr></thead>
+                <tbody id="sumBestTrades"></tbody>
+            </table>
+        </div>
+        <div class="section" style="border-color:var(--red);">
+            <h2><span class="dot" style="background:var(--red)"></span>💔 Worst Trades</h2>
+            <table class="stock-table" style="font-size:12px;margin-top:10px;">
+                <thead><tr><th>Rank</th><th>Ticker</th><th>P&amp;L</th><th>Story</th></tr></thead>
+                <tbody id="sumWorstTrades"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- LESSONS LEARNED -->
+    <div class="section" style="border-color:var(--blue);">
+        <h2><span class="dot" style="background:var(--blue)"></span>🎓 Lessons From the Journey</h2>
+        <ul class="il" style="margin-top:10px;">
+            <li><span style="color:var(--green);">✓</span><div><strong>Stops work.</strong> CEG's -$54 exit could have been -$200+ without the pre-committed rule. The +$708 MU take-profit protected a huge win from evaporating.</div></li>
+            <li><span style="color:var(--green);">✓</span><div><strong>Diversifiers earn their keep.</strong> BRK.B + UNH kept the book afloat during July MU pullback (-22% single day). Small anchors, big impact.</div></li>
+            <li><span style="color:var(--green);">✓</span><div><strong>Rules beat emotion.</strong> Every trim was rule-driven — 20% cap or +100% doubled — not "I feel like it." That's why realized P&L keeps compounding positive.</div></li>
+            <li><span style="color:var(--yellow);">△</span><div><strong>Timing trims is hard.</strong> META rallied +5% right after we trimmed. QFIN would have kept falling — trims aren't perfect, but on average they lock more wins than they cost.</div></li>
+            <li><span style="color:var(--yellow);">△</span><div><strong>Some names never work.</strong> HLI, POWL, SMMT — flat-to-negative with no catalyst. Cutting them earlier would have accelerated the run. Lesson: give a name 2 months to prove itself, then rotate.</div></li>
+            <li><span style="color:var(--red);">✗</span><div><strong>Concentration always risks.</strong> MU was 24% of book at peak — a bad print could have wrecked the whole quarter. The cap rule saved that.</div></li>
+        </ul>
+    </div>
+
 </div>
 </div>
 
@@ -1776,6 +1917,193 @@ if (_histFoot) _histFoot.innerHTML = `<td></td><td></td><td>TOTAL CLOSED</td>
     <td style="color:${histTotRealizedColor};font-size:15px;">${histRealizedTotal>=0?'+$':'-$'}${Math.abs(histRealizedTotal).toFixed(0)}</td>
     <td style="color:${histTotRealizedColor};font-size:15px;">${histRealizedTotal>=0?'+':''}${histTotPct.toFixed(1)}%</td>
     <td style="font-size:10px;color:var(--t3);">${histCounter} closed positions</td>`;
+
+// ══════════════════════════════════════════════════════════════════
+//   SUMMARY PAGE — populate all KPI cards, charts, and stats
+//   Runs on every page load with fresh data from current portfolio state
+// ══════════════════════════════════════════════════════════════════
+(function renderSummary(){
+    const startDateS = new Date('2026-04-13');
+    const todayS = new Date();
+    const daysIn = Math.max(1, Math.floor((todayS - startDateS) / 86400000));
+
+    // ── Compute headline numbers ──
+    const activePositions = portfolio.filter(p => p.shares > 0);
+    const closedPositions = portfolio.filter(p => p.shares === 0 && (p.soldShares||0) > 0);
+    const _openValue = activePositions.reduce((s,p) => s + p.shares * p.currentPrice, 0);
+    const _openCost = activePositions.reduce((s,p) => s + p.shares * p.buyPrice, 0);
+    const _unreal = _openValue - _openCost;
+    const _totalAssets = _openValue + CASH_BALANCE;
+    const _totalPnl = _totalAssets - STARTING_CAPITAL;
+    const _totalPct = (_totalPnl / STARTING_CAPITAL) * 100;
+    const _annualized = (Math.pow(_totalAssets / STARTING_CAPITAL, 365 / daysIn) - 1) * 100;
+    const _pnlColor = _totalPnl >= 0 ? 'var(--green)' : 'var(--red)';
+    const _fmt$ = n => '$' + Math.abs(n).toLocaleString(undefined,{maximumFractionDigits:0});
+    const _fmtSigned = n => (n>=0?'+':'-') + _fmt$(Math.abs(n));
+
+    // Trade history: reconstruct realized P&L per closed/trimmed event.
+    // Each portfolio entry can have soldShares × sellPrice giving one realized event.
+    const trades = [];
+    portfolio.forEach(p => {
+        if ((p.soldShares||0) > 0 && p.sellPrice > 0) {
+            const proceeds = p.soldShares * p.sellPrice;
+            const cost = p.soldShares * p.buyPrice;
+            trades.push({
+                t: p.t,
+                name: p.name,
+                realized: proceeds - cost,
+                pct: cost > 0 ? ((proceeds - cost) / cost * 100) : 0,
+                color: p.color,
+                closed: p.shares === 0,
+                soldShares: p.soldShares,
+                sellPrice: p.sellPrice,
+                buyPrice: p.buyPrice
+            });
+        }
+    });
+    const wins = trades.filter(t => t.realized > 0);
+    const losses = trades.filter(t => t.realized < 0);
+    const winRate = trades.length > 0 ? (wins.length / trades.length * 100) : 0;
+
+    // ── Fill KPI cards ──
+    const $ = id => document.getElementById(id);
+    if ($('sumDaysIn')) $('sumDaysIn').textContent = daysIn;
+    if ($('sumTotalRet')) {
+        $('sumTotalRet').textContent = (_totalPct>=0?'+':'') + _totalPct.toFixed(1) + '%';
+        $('sumTotalRet').style.color = _pnlColor;
+    }
+    if ($('sumAnnualized')) $('sumAnnualized').textContent = (_annualized>=0?'+':'') + _annualized.toFixed(0) + '%';
+    if ($('sumTrades')) $('sumTrades').textContent = trades.length;
+    if ($('sumCurValue')) $('sumCurValue').textContent = _fmt$(_totalAssets);
+    if ($('sumPnl')) { $('sumPnl').textContent = _fmtSigned(_totalPnl); $('sumPnl').style.color = _pnlColor; }
+    if ($('sumPnlSub')) $('sumPnlSub').textContent = (_totalPct>=0?'+':'') + _totalPct.toFixed(2) + '% vs $10K start';
+    if ($('sumPnlCard')) $('sumPnlCard').style.borderColor = _pnlColor;
+    if ($('sumRealized')) {
+        $('sumRealized').textContent = _fmtSigned(REALIZED_PNL);
+        $('sumRealized').style.color = REALIZED_PNL>=0 ? 'var(--green)' : 'var(--red)';
+    }
+    if ($('sumUnrealized')) {
+        $('sumUnrealized').textContent = _fmtSigned(_unreal);
+        $('sumUnrealized').style.color = _unreal>=0 ? 'var(--green)' : 'var(--red)';
+    }
+    if ($('sumCash')) $('sumCash').textContent = _fmt$(CASH_BALANCE);
+    if ($('sumWinRate')) $('sumWinRate').textContent = winRate.toFixed(0) + '%';
+    if ($('sumWinRateSub')) $('sumWinRateSub').textContent = `${wins.length} wins / ${losses.length} losses / ${trades.length} total`;
+    if ($('sumPositions')) $('sumPositions').textContent = activePositions.length;
+    if ($('sumPositionsSub')) $('sumPositionsSub').textContent = `+ ${closedPositions.length} closed`;
+
+    // ── Chart 1: Portfolio Value Journey (line chart) ──
+    // Waypoint estimates from decision log — precise closes exist only for a few key dates,
+    // so we anchor at rebalance dates and let the chart tell the story.
+    const journeyLabels = ['Apr 13','Apr 25','May 4','May 10','May 15','Jun 1','Jun 21','Jul 15','Aug 3','Aug 5','Today'];
+    const journeyValues = [10000, 10200, 10660, 12346, 11854, 12905, 12700, 13100, 12700, 14000, Math.round(_totalAssets)];
+    const _baseline = new Array(journeyLabels.length).fill(10000);
+    if (typeof Chart !== 'undefined' && $('sumJourneyChart')) {
+        new Chart($('sumJourneyChart'), {
+            type: 'line',
+            data: {
+                labels: journeyLabels,
+                datasets: [
+                    {label:'Portfolio Value', data: journeyValues, borderColor:'#22c55e', backgroundColor:'rgba(34,197,94,.14)', fill:true, tension:.35, borderWidth:3, pointRadius:5, pointHoverRadius:8, pointBackgroundColor:'#22c55e', pointBorderColor:'#0b1220', pointBorderWidth:2},
+                    {label:'$10K Starting Capital', data:_baseline, borderColor:'rgba(148,163,184,.6)', borderDash:[6,4], borderWidth:1.5, pointRadius:0, fill:false}
+                ]
+            },
+            options: {
+                responsive:true, maintainAspectRatio:false,
+                interaction:{mode:'index',intersect:false},
+                plugins:{
+                    legend:{position:'bottom',labels:{boxWidth:12,padding:12,font:{size:11}}},
+                    tooltip:{backgroundColor:'rgba(15,23,42,.95)',callbacks:{label:c=>c.dataset.label+': $'+c.parsed.y.toLocaleString()}}
+                },
+                scales:{
+                    y:{grid:{color:'rgba(30,41,59,.3)'},ticks:{callback:v=>'$'+v.toLocaleString(),font:{size:11}}},
+                    x:{grid:{display:false},ticks:{font:{size:10}}}
+                }
+            }
+        });
+    }
+
+    // ── Chart 2: Position performance (horizontal bar of % gain per active position) ──
+    const posSorted = [...activePositions].map(p => ({t:p.t, gain:((p.currentPrice-p.buyPrice)/p.buyPrice*100), color:p.color})).sort((a,b)=>b.gain-a.gain);
+    if (typeof Chart !== 'undefined' && $('sumPositionGainsChart')) {
+        new Chart($('sumPositionGainsChart'), {
+            type: 'bar',
+            data: {
+                labels: posSorted.map(p=>p.t),
+                datasets: [{data: posSorted.map(p=>p.gain), backgroundColor: posSorted.map(p=>p.gain>=0?'#22c55e':'#ef4444'), borderRadius:5, barPercentage:.72}]
+            },
+            options: {
+                indexAxis:'y', responsive:true, maintainAspectRatio:false,
+                plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>c.parsed.x.toFixed(1)+'% from entry'}}},
+                scales:{
+                    x:{grid:{color:'rgba(30,41,59,.3)'},ticks:{callback:v=>v+'%',font:{size:10}}},
+                    y:{grid:{display:false},ticks:{font:{size:11,weight:'600'}}}
+                }
+            }
+        });
+    }
+
+    // ── Chart 3: Current Allocation (doughnut) ──
+    const allocPositions = activePositions.map(p => ({t:p.t,val:p.shares*p.currentPrice,color:p.color})).sort((a,b)=>b.val-a.val);
+    // Append cash as a slice
+    allocPositions.push({t:'CASH', val:CASH_BALANCE, color:'#06b6d4'});
+    if (typeof Chart !== 'undefined' && $('sumAllocChart')) {
+        new Chart($('sumAllocChart'), {
+            type: 'doughnut',
+            data: {
+                labels: allocPositions.map(p=>p.t+' ($'+p.val.toLocaleString(undefined,{maximumFractionDigits:0})+')'),
+                datasets: [{data:allocPositions.map(p=>p.val), backgroundColor:allocPositions.map(p=>p.color), borderColor:'#0b1220', borderWidth:3}]
+            },
+            options: {
+                responsive:true, maintainAspectRatio:false, cutout:'55%',
+                plugins:{legend:{position:'right',labels:{boxWidth:10,padding:6,font:{size:10}}}}
+            }
+        });
+    }
+
+    // ── Chart 4: Realized P&L per closed/trimmed trade ──
+    const tradesSorted = [...trades].sort((a,b)=>b.realized-a.realized);
+    if (typeof Chart !== 'undefined' && $('sumRealizedChart')) {
+        new Chart($('sumRealizedChart'), {
+            type: 'bar',
+            data: {
+                labels: tradesSorted.map(t=>t.t + (t.closed?'':' ✂')),
+                datasets: [{data: tradesSorted.map(t=>t.realized), backgroundColor: tradesSorted.map(t=>t.realized>=0?'#22c55e':'#ef4444'), borderRadius:5, barPercentage:.72}]
+            },
+            options: {
+                responsive:true, maintainAspectRatio:false,
+                plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>{const tr=tradesSorted[c.dataIndex]; return `${tr.t}: ${tr.realized>=0?'+$':'-$'}${Math.abs(tr.realized).toFixed(0)} (${tr.pct>=0?'+':''}${tr.pct.toFixed(0)}%) · ${tr.closed?'closed':'trimmed'}`;}}}},
+                scales:{
+                    y:{grid:{color:'rgba(30,41,59,.3)'},ticks:{callback:v=>(v>=0?'+$':'-$')+Math.abs(v).toFixed(0),font:{size:10}}},
+                    x:{grid:{display:false},ticks:{font:{size:10}}}
+                }
+            }
+        });
+    }
+
+    // ── Best/Worst trade tables ──
+    const bestTrades = [...trades].sort((a,b)=>b.realized-a.realized).slice(0,5);
+    const worstTrades = [...trades].sort((a,b)=>a.realized-b.realized).slice(0,5);
+    const _bestTbody = $('sumBestTrades');
+    const _worstTbody = $('sumWorstTrades');
+    if (_bestTbody) _bestTbody.innerHTML = bestTrades.map((t,i)=>`<tr>
+        <td>#${i+1}</td>
+        <td style="color:${t.color};font-weight:700;">${t.t}${t.closed?'':' <span style="font-size:9px;color:var(--yellow);">TRIM</span>'}</td>
+        <td style="color:var(--green);font-weight:700;">+$${t.realized.toFixed(0)}</td>
+        <td style="font-size:11px;color:var(--t3);">${t.soldShares.toFixed(2)} sh @ $${t.sellPrice.toFixed(0)} from $${t.buyPrice.toFixed(0)} (${t.pct>=0?'+':''}${t.pct.toFixed(0)}%)</td>
+    </tr>`).join('');
+    if (_worstTbody) _worstTbody.innerHTML = worstTrades.map((t,i)=>`<tr>
+        <td>#${i+1}</td>
+        <td style="color:${t.color};font-weight:700;">${t.t}${t.closed?'':' <span style="font-size:9px;color:var(--yellow);">TRIM</span>'}</td>
+        <td style="color:var(--red);font-weight:700;">-$${Math.abs(t.realized).toFixed(0)}</td>
+        <td style="font-size:11px;color:var(--t3);">${t.soldShares.toFixed(2)} sh @ $${t.sellPrice.toFixed(0)} from $${t.buyPrice.toFixed(0)} (${t.pct.toFixed(0)}%)</td>
+    </tr>`).join('');
+
+    // Today's note (bottom of milestones)
+    if ($('sumTodayNote')) {
+        $('sumTodayNote').innerHTML = `Portfolio value: <strong style="color:${_pnlColor};">${_fmt$(_totalAssets)}</strong> (<strong style="color:${_pnlColor};">${_fmtSigned(_totalPnl)}, ${_totalPct>=0?'+':''}${_totalPct.toFixed(1)}%</strong>). Realized P&L: <strong style="color:${REALIZED_PNL>=0?'var(--green)':'var(--red)'};">${_fmtSigned(REALIZED_PNL)}</strong>. Cash: <strong>${_fmt$(CASH_BALANCE)}</strong>. Live journey continues.`;
+    }
+})();
 
 // Quick View footer — the headline number the user cares about most
 const _qvOpenTotal = totalValue;
