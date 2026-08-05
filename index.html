@@ -276,7 +276,31 @@ a{color:var(--blue);text-decoration:none;}a:hover{text-decoration:underline;}
     <div class="section" style="border-color:var(--blue);">
         <h2><span class="dot" style="background:var(--blue)"></span>Daily Decision Log</h2>
 
-        <!-- ── Aug 3, 2026 · AGGRESSIVE REBALANCE for +80% target ── (newest on top) -->
+        <!-- ── Aug 5, 2026 · TAKE-PROFITS + ROTATION ── (newest on top) -->
+        <div style="background:linear-gradient(135deg,rgba(34,197,94,.14),rgba(6,182,212,.08));border:2px solid rgba(34,197,94,.55);border-radius:10px;padding:16px;margin-bottom:14px;">
+            <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:10px;">
+                <strong style="font-size:15px;">Aug 5, 2026 (Wed) &middot; Day 115 &middot; <span style="color:var(--green);">TAKE-PROFITS + ROTATION → Realized P&amp;L flips to +$662 ✅</span></strong>
+                <span style="font-size:11px;color:var(--t3);">5 trades &middot; net -1 position</span>
+            </div>
+            <div style="font-size:12px;color:var(--t2);margin-bottom:12px;">Aug 4 delivered a MU rip (+14%) and NBIS explosion (+18%) — portfolio jumped from ~+27% to ~+39%. MU triggered the +100% "sell half" rule, PANW is $3 from same trigger. Locked profits on both, cut POWL (only red position without near catalyst), redeployed into pre-earnings NVDA and deep-value ORCL.</div>
+            <ul class="il" style="margin:0;">
+                <li><span style="color:var(--yellow);">TRIM</span><div><strong>MU — sold 1.50 of 3.00 sh @ $892.67 (+$708 realized).</strong> +100% doubled-rule fired at +112% from entry. Kept 1.50 sh "house money" runner. Total MU realized across 4 trims now +$1,076.</div></li>
+                <li><span style="color:var(--yellow);">TRIM</span><div><strong>PANW — sold 1.00 of 2.17 sh @ $366.34 (+$182 realized).</strong> Preemptive at +98.5% ($3 from trigger). Momentum names often gap past triggers — take profits early. Kept 1.17 sh.</div></li>
+                <li><span class="neg">SELL</span><div><strong>POWL — full exit, 3.13 sh @ $211.38 (-$61 realized).</strong> Underwater -11% for 3 months, no near catalyst. Not a thesis failure — opportunity cost. Freed $662 for higher-conviction plays.</div></li>
+                <li><span class="pos">BUY</span><div><strong>NVDA — DOUBLED position, +3.00 sh @ $211.94 ($636).</strong> Aug 26 earnings is the biggest single catalyst of Q3 ($91B expected). Total position now 5.99 sh ($1,270 = 9% of book) at wtd avg $206.35.</div></li>
+                <li><span class="pos">BUY</span><div><strong>ORCL — NEW 5.00 sh @ $145.74 ($729).</strong> Deep-value AI infra: -58% from $346 peak, $638B contracted backlog. Companion to NVDA/NBIS AI-infra bets. Hard stop $125.</div></li>
+                <li><span style="color:var(--t3);">HOLD</span><div><strong>MU (core), EVER (+58%), NBIS (+18% day 1), OPFI, META (reduced), GOOGL, PANW (core), BRK.B, UNH, TLN, VST</strong> — no rules firing, thesis intact.</div></li>
+                <li><span style="color:var(--cyan);">CASH</span><div><strong>$1,029.60 dry powder</strong> ($2,367 freed − $1,365 deployed). Keeping meaningful cash for NVDA earnings volatility and any pullback opportunities in the next 3 weeks.</div></li>
+            </ul>
+            <div style="font-size:11px;color:var(--t3);margin-top:12px;border-top:1px solid var(--border);padding-top:10px;line-height:1.7;">
+                <strong>Realized P&amp;L:</strong> -$166 → <span style="color:var(--green);font-weight:700;">+$662</span> (flips positive on today's take-profits).
+                <br><strong>Structure:</strong> 13 open positions. MU/PANW cores kept, NVDA doubled, ORCL added. AI/tech theme now spread across 6 names (MU, META, GOOGL, PANW, NVDA, ORCL, NBIS) — less single-name risk.
+                <br><strong>Next catalysts:</strong> NVDA earnings Aug 26 (biggest event), any Stargate news for ORCL, PANW Q4 earnings ~mid-Aug.
+                <br><strong>Progress to +80% target:</strong> ~+39% now, need +30% more in 12 weeks. On pace if NVDA earnings + MU/NBIS continue to work.
+            </div>
+        </div>
+
+        <!-- ── Aug 3, 2026 · AGGRESSIVE REBALANCE for +80% target ── -->
         <div style="background:linear-gradient(135deg,rgba(139,92,246,.12),rgba(34,197,94,.08));border:2px solid rgba(139,92,246,.55);border-radius:10px;padding:16px;margin-bottom:14px;">
             <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:10px;">
                 <strong style="font-size:15px;">Aug 3, 2026 (Mon) &middot; Day 113 &middot; <span style="color:var(--purple);">AGGRESSIVE REBALANCE — targeting +80% by Oct 31</span></strong>
@@ -905,15 +929,17 @@ const PAGE_BUILD_TIME = '2026-08-05T13:15:49Z'; // replaced by the GitHub Action
 // May 15: CEG stop-loss exit (-$54.39) — closed $267.20, below the $272.89 stop
 // Aug 3: Full rebalance — SELL SMMT (-$52), SELL HLI (-$90), TRIM META (-$100) → -$242 realized
 //        BUY NBIS $701, NVDA $600, TLN $501, VST $400 = $2,202 deployed for aggressive AI/nuclear tilt
-const REALIZED_PNL = -166.08;       // Cumulative through Aug 3 ($76.07 − $242.15 from rebalance sells)
-const CASH_BALANCE = 27.15;         // Cash after full rebalance deployment
+// Aug 5: Take-profits + rotation — TRIM MU (+$708 on doubled rule), TRIM PANW (+$182 preemptive),
+//        SELL POWL (-$61 cut loser), ADD NVDA $636 (pre-earnings), BUY ORCL $729 (deep value AI infra)
+const REALIZED_PNL = 662.41;        // Cumulative through Aug 5 (was -$166.08 + $828.49 from Aug 5 actions)
+const CASH_BALANCE = 1029.60;       // Dry powder after Aug 5 rebalance (~$2,367 in, ~$1,365 deployed)
 const STARTING_CAPITAL = 10000;     // Original $10K invested at inception (Apr 13, 2026)
 
 // ══════════════════════════════════════
 //         LIVE PRICE FETCHER
 // ══════════════════════════════════════
 // Tickers tracked across all three portfolios
-const ALL_TICKERS = ['MU','FSLR','ALGN','UBER','NVDA','CRM','META','AMZN','LLY','GOOGL','QFIN','INR','HLI','IREN','LMB','EVER','VIST','OPFI','POWL','PAHC','PANW','CEG','SMMT','BRK-B','UNH','NBIS','TLN','VST'];
+const ALL_TICKERS = ['MU','FSLR','ALGN','UBER','NVDA','CRM','META','AMZN','LLY','GOOGL','QFIN','INR','HLI','IREN','LMB','EVER','VIST','OPFI','POWL','PAHC','PANW','CEG','SMMT','BRK-B','UNH','NBIS','TLN','VST','ORCL'];
 
 // Status pill in top-right corner
 const _liveStatus = document.createElement('div');
@@ -1471,8 +1497,8 @@ function openNext10Stock(idx){
 //    $10K LIVE PORTFOLIO TRACKER
 // ══════════════════════════════════════
 const portfolio = [
-  {t:'MU',  name:'Micron Technology', invested:2000, buyPrice:420.59, shares:3.00, soldShares:1.76, sellPrice:633.27, buyDate:'Apr 11', sellDate:'May 4 + May 10 + May 14', currentPrice:892.67, target:1000.00, color:'#06b6d4', catalyst:'Earnings May 20',
-   why:'TRIMMED May 4 (sold 1.06 shares @ $542.21, locked $128.92 gain). Original 4.76 shares grew to 23.7% of book — violated the 20% concentration cap. Kept 3.70 shares because TD Cowen raised target to $660 on Apr 28 (consensus $533.73), HBM is sold out through 2026, and HBM4 pricing is locked. Anchor stays — but smaller. New target reflects TD Cowen high-water mark.',
+  {t:'MU',  name:'Micron Technology', invested:2000, buyPrice:420.59, shares:1.50, soldShares:3.26, sellPrice:752.63, buyDate:'Apr 11', sellDate:'May 4 + May 10 + May 14 + Aug 5', currentPrice:892.67, target:1000.00, color:'#06b6d4', catalyst:'Aug 5 half-sold on doubled rule',
+   why:'HALF SOLD Aug 5 on the +100% doubled-rule trigger — sold 1.50 sh @ $892.67 (+$708 realized). Original 4.76 sh trimmed 4 times (May 4, May 10, May 14, Aug 5); now down to 1.50 sh core "playing with house money". At entry $420.59, MU rallied +112% to $892.67. Kept the core because HBM cycle is real — TD Cowen $660 target long surpassed, some street calls now $1,000+. This is the disciplined take-profit: lock the win, let the runner keep running.',
    about:'Micron Technology is a global leader in memory and storage semiconductor solutions. They manufacture DRAM, NAND flash, and NOR flash memory chips used in data centers, PCs, mobile devices, and automotive. Headquartered in Boise, Idaho. Founded 1978. ~48,000 employees. Their HBM3E (High Bandwidth Memory) chips are critical for AI training and inference workloads at companies like NVIDIA, Google, and Meta.',
    week:[428.50,425.13,418.72,422.80,415.50,421.51,420.59]},
   {t:'OPFI',name:'OppFi Inc.', invested:1500, buyPrice:7.96, shares:188.4, buyDate:'Apr 11', currentPrice:9.81, target:15.47, stopLoss:6.77, color:'#22c55e', catalyst:'Q1 earnings May',
@@ -1488,8 +1514,8 @@ const portfolio = [
    why:'EXITED May 4, 2026 — sold full 63.5 shares @ $13.39 (-$349.89 realized). Q4 2025 missed guidance; management projected Q1 2026 revenue down 51-53% YoY — thesis materially broken, not noise. -29% drawdown breached the 15% small-cap stop (rule #5). Position kept in table as historical record per portfolio policy.',
    about:'Qifu Technology (formerly 360 DigiTech) is a leading AI-powered credit technology platform in China. They connect financial institutions with consumers and small businesses using proprietary AI models for credit assessment, risk management, and loan facilitation. Listed on NASDAQ as an ADR. The platform serves ~50M users with intelligent matching algorithms. HQ in Shanghai, China.',
    week:[19.50,19.20,18.70,19.10,18.80,18.95,13.39]},
-  {t:'POWL',name:'Powell Industries', invested:1000, buyPrice:231.00, shares:3.13, soldShares:1.20, sellPrice:269.95, buyDate:'Apr 11', sellDate:'May 5', currentPrice:211.38, target:267.26, color:'#3b82f6', catalyst:'Grid buildout',
-   why:'TRIMMED May 5 (sold 1.20 shares @ $269.95, locked +$46.74 gain). Stock pushed past static $267 target — took partial profits to fund 3 new positions and bring portfolio to 10 names. Kept 3.13 shares because grid infra remains a secular trend; will refresh target after street updates.',
+  {t:'POWL',name:'Powell Industries', invested:1000, buyPrice:231.00, shares:0, soldShares:4.33, sellPrice:227.61, buyDate:'Apr 11', sellDate:'May 5 + Aug 5', currentPrice:211.38, target:267.26, color:'#3b82f6', catalyst:'EXITED Aug 5 — cut loser',
+   why:'FULL EXIT Aug 5 — sold remaining 3.13 sh @ $211.38 (-$61 realized). Position was underwater -11% from cost after 4 months with no near-term catalyst. Grid-infrastructure thesis long-term is real but capital was better deployed elsewhere. Total exit: 4.33 sh across two trims (May 5 @ $269.95 for +$47, Aug 5 @ $211.38 for -$61). Net realized: -$14. Redirected freed capital ($662) into higher-conviction NVDA (pre-earnings) + ORCL (deep value AI infra).',
    about:'Powell Industries designs and manufactures custom-engineered electrical equipment for industrial, utility, and commercial applications. Products include switchgear, motor control centers, and bus duct systems used in power distribution. Key customers: data centers, oil & gas, utilities, and infrastructure projects. HQ in Houston, TX. Founded 1947. Benefiting from grid modernization and AI data center power demands.',
    week:[240.00,236.63,227.00,233.50,228.80,232.00,231.00]},
   {t:'GOOGL',name:'Alphabet Inc.', invested:1000, buyPrice:317.37, shares:2.25, soldShares:0.90, sellPrice:383.25, buyDate:'Apr 11', sellDate:'May 5', currentPrice:377.65, target:351.53, color:'#eab308', catalyst:'Q1 earnings Apr 23',
@@ -1504,8 +1530,8 @@ const portfolio = [
    why:'EXITED Aug 3, 2026 — sold full 5.66 sh @ $125.49 (-$89.60 realized). Position was flat-to-negative for 4 months with no near-term catalyst in sight; financials/M&A sector remained cold. Goldman still likes it long-term but capital was underperforming vs freed-up alternatives. Redeployed proceeds into aggressive AI infrastructure names (NBIS, NVDA, TLN, VST) as part of Aug 3 rebalance targeting +80% by Oct 31. Not a thesis failure — just an opportunity-cost decision.',
    about:'Houlihan Lokey is a leading global independent investment bank specializing in M&A advisory, restructuring, and financial advisory services. They are ranked #1 globally in M&A restructuring and among the top firms for fairness opinions. Clients include corporations, institutions, and governments. HQ in Los Angeles, CA. Founded 1972. ~2,800 employees across 25+ offices worldwide. Known for middle-market expertise where deals are less commoditized.'},
   // ── Added May 5, 2026 ── 3 new positions to satisfy 10-stock minimum and fill sector gaps (cybersecurity, AI power generation, biotech catalyst).
-  {t:'PANW',name:'Palo Alto Networks', invested:0, buyPrice:184.56, shares:2.17, buyDate:'May 5', currentPrice:366.34, target:205.96, color:'#ef4444', catalyst:'Q3 FY26 earnings May',
-   why:'ADDED May 5 — fills cybersecurity gap. 46 Buy/Strong Buy ratings, consensus target $205.96 (~12% upside; many street targets higher). Forward P/E 43x is rich but justified by platform stickiness and AI-security demand acceleration. Lower size ($400) reflects valuation premium vs CRWD which we passed on for being too extended.',
+  {t:'PANW',name:'Palo Alto Networks', invested:0, buyPrice:184.56, shares:1.17, soldShares:1.00, sellPrice:366.34, buyDate:'May 5', sellDate:'Aug 5', currentPrice:366.34, target:400.00, color:'#ef4444', catalyst:'Aug 5 preemptive trim near +100%',
+   why:'PREEMPTIVE TRIM Aug 5 — sold 1.00 of 2.17 sh @ $366.34 (+$182 realized). Position was at +98.5% from entry $184.56 — $3 away from the +100% doubled-rule trigger. Rather than wait for the strict trigger, took the take-profit early (momentum names often gap past triggers). Kept 1.17 sh — AI-security demand + platform consolidation thesis intact. Target raised to $400 reflecting new price action.',
    about:'Palo Alto Networks is the world\'s largest pure-play cybersecurity company. Their integrated platform spans network security (Strata), cloud security (Prisma), and AI-driven security operations (Cortex). Founded 2005. HQ in Santa Clara, CA. ~14,000 employees. Customers include >85% of Fortune 100. Their "platformization" strategy is consolidating point-solution vendors as customers seek unified security postures.',
    week:[178.00,180.20,182.50,181.40,183.10,184.20,184.56]},
   {t:'CEG', name:'Constellation Energy', invested:0, buyPrice:321.05, shares:0, soldShares:1.01, sellPrice:267.20, buyDate:'May 5', sellDate:'May 15', currentPrice:267.20, target:392.89, color:'#10b981', catalyst:'EXITED May 15 — stop-loss',
@@ -1525,8 +1551,8 @@ const portfolio = [
    why:'ADDED Aug 3, 2026 — HIGHEST-MOMENTUM leg of the aggressive rebalance. Just signed $1B multi-year AI compute deal with Reflection AI. Q1 revenue +684% YoY. $50B contracted backlog anchored by Microsoft & Meta. FY26 revenue guide $3.4B (+550%). High-beta neocloud AI infrastructure play — double-digit daily moves are normal. Sized $700 (~5% of book) as a swing-trade momentum position, not a long-term hold. Hard stop $150 (~21% below entry) protects against volatility blow-ups.',
    about:'Nebius Group is a Netherlands-listed AI cloud infrastructure company that spun out from the Yandex breakup in 2024. Operates GPU-based AI compute for machine learning training and inference, serving hyperscalers and AI startups. Building out data centers in Finland, Iceland, France, and the US. HQ Amsterdam. Considered one of the top pure-play "neocloud" AI infrastructure names outside the mega-cap hyperscalers.',
    week:[180.20,183.50,178.90,185.40,188.10,192.30,190.41]},
-  {t:'NVDA', name:'NVIDIA Corp', invested:0, buyPrice:200.75, shares:2.99, buyDate:'Aug 3', currentPrice:211.94, target:260.00, stopLoss:170.00, color:'#22c55e', catalyst:'Aug 26 earnings — expected $91B rev',
-   why:'ADDED Aug 3, 2026 — positioning ahead of the biggest catalyst of Q3. NVDA reports Aug 26, 2026 with analysts expecting $91B in quarterly revenue. Every AI theme flows through NVDA — if the AI capex narrative is intact, NVDA beats and stock re-rates. Sized $600 (~5% of book) as a defined-risk earnings play. Hard stop $170 (~15% below entry) — if NVDA breaks pre-earnings, something bigger is wrong and we exit.',
+  {t:'NVDA', name:'NVIDIA Corp', invested:0, buyPrice:206.35, shares:5.99, buyDate:'Aug 3 + Aug 5', currentPrice:211.94, target:260.00, stopLoss:175.00, color:'#22c55e', catalyst:'Aug 26 earnings — expected $91B rev',
+   why:'ADDED Aug 3 (2.99 sh @ $200.75) THEN DOUBLED Aug 5 (+3.00 sh @ $211.94) as MU/PANW trim + POWL exit freed $2,367 cash. NVDA is the highest-conviction pre-earnings setup in the market — reports Aug 26 with expected $91B quarterly revenue. Every AI theme flows through NVDA. Total position now $1,270 (~9% of book) at weighted avg cost $206.35. Hard stop raised to $175 (~15% below wtd avg) — earnings binary event, defined risk in place.',
    about:'NVIDIA is the dominant global supplier of GPUs and AI accelerators. Its H100/H200/Blackwell chips are the foundation of nearly every large AI training cluster (OpenAI, Anthropic, Meta, Microsoft, Google). Data Center segment is >90% of revenue and growing 100%+. HQ Santa Clara, CA. Founded 1993 by Jensen Huang. The single most important company in the AI supply chain.',
    week:[195.20,198.10,196.30,201.50,199.80,202.40,200.75]},
   {t:'TLN', name:'Talen Energy', invested:0, buyPrice:334.10, shares:1.50, buyDate:'Aug 3', currentPrice:340.00, target:450.00, stopLoss:290.00, color:'#f59e0b', catalyst:'AWS 1,920 MW deal execution',
@@ -1537,6 +1563,10 @@ const portfolio = [
    why:'ADDED Aug 3, 2026 — companion to TLN, same nuclear+AI power theme but with gas exposure too. Pulled back from $220 52w high. Sized $400 (~3% of book) to diversify the nuclear-power bet across two names. Hard stop $130 (~12% below). Target $200-220 (retest of highs). Both TLN and VST should move together on any positive AI-data-center power news.',
    about:'Vistra is the largest competitive power generator in the US, with a mix of nuclear (via 2024 acquisition of Energy Harbor), natural gas, coal, and renewables. Retail electricity business (TXU) provides steady cash flow. HQ Irving, TX. Multiple hyperscaler discussions reportedly in progress for direct-to-datacenter power supply — expected to announce deals in 2026-2027.',
    week:[152.30,150.80,148.60,146.20,149.10,150.40,148.19]},
+  {t:'ORCL', name:'Oracle Corporation', invested:0, buyPrice:145.74, shares:5.00, buyDate:'Aug 5', currentPrice:145.74, target:220.00, stopLoss:125.00, color:'#f80000', catalyst:'FCF inflection + Stargate execution',
+   why:'ADDED Aug 5 — deep-value AI infrastructure play. ORCL crashed -58% from $346 peak, sitting at ~$146 despite record $638B contracted backlog (RPO). Bull case: $300B Stargate/OpenAI deal generates ~$60B/yr for 5 years; if FCF turns positive late 2027, stock re-rates to $220+. Bear risk defined: $130B debt + capex burn (~-$24B FCF FY26). Sized $729 (~5% of book) as asymmetric play. Hard stop $125 (~14% below entry, below 52w low $135 buffer). Companion to NVDA / NBIS AI-infra bets.',
+   about:'Oracle Corporation is a global enterprise software and cloud infrastructure company. Oracle Cloud Infrastructure (OCI) is the 4th-largest hyperscaler after AWS/Azure/GCP, growing +93% YoY on AI workload demand. Signed the landmark $300B, 5-year Stargate partnership with OpenAI in 2025 to build ~5GW of AI data center capacity. HQ Austin, TX (relocated from Redwood City). Founded 1977 by Larry Ellison. FY26 revenue $67B (+17%), backlog $638B (+363%).',
+   week:[130.20,132.50,135.80,138.10,141.20,143.60,145.74]},
   {t:'UNH', name:'UnitedHealth Group', invested:0, buyPrice:379.98, shares:0.45, buyDate:'May 10', currentPrice:407.55, target:475.00, color:'#0ea5e9', catalyst:'Q2 print + DOJ overhang resolution',
    why:'ADDED May 10 — contrarian healthcare value. Largest US health insurer (UnitedHealthcare) + #1 PBM (OptumRx) + Optum Health/Insight services. Beat-down hard in 2025 on regulatory worries (DOJ Medicare Advantage probe + cyber incident overhang) — at $380, valuation is ~13x forward earnings, well below long-term avg. Healthcare = inelastic demand; defensive in any economic cycle. Fills the ZERO healthcare exposure gap in the book. ~$171 sized — small starter; can build on further weakness.',
    about:'UnitedHealth Group is the largest US healthcare company by revenue. Two segments: UnitedHealthcare (insurance — commercial, Medicare Advantage, Medicaid) and Optum (Optum Health clinics, OptumRx PBM, Optum Insight analytics/tech). Revenue ~$400B+. HQ in Minnetonka, MN. ~440,000 employees. Sells health insurance to ~50M Americans. Dominant scale moat in claims processing and provider networks.',
