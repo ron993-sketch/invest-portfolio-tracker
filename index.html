@@ -249,9 +249,29 @@ a{color:var(--blue);text-decoration:none;}a:hover{text-decoration:underline;}
         <div class="kpi" id="earnLossCard"><div class="lbl">Earn / Loss</div><div class="val" id="earnLossVal">$0</div><div class="sub" id="earnLossPct">0.00% vs $10K</div></div>
     </div>
 
-    <!-- ═══ CURRENT PORTFOLIO — What You Own Today ═══ -->
+    <!-- ═══ QUICK VIEW — Compact snapshot of what I own right now ═══ -->
+    <div class="section" style="overflow-x:auto;border-color:var(--cyan);background:linear-gradient(135deg,rgba(6,182,212,.04),rgba(34,197,94,.02));">
+        <h2><span class="dot" style="background:var(--cyan)"></span>⚡ Quick View — Portfolio at a Glance</h2>
+        <div style="font-size:12px;color:var(--t3);margin-bottom:14px;">The essentials only. For full details, hover any row or scroll down to the detailed portfolio table.</div>
+        <table class="stock-table" id="quickViewTable">
+            <thead><tr>
+                <th>#</th>
+                <th>Ticker</th>
+                <th>Shares</th>
+                <th>Buy Price</th>
+                <th>Sell Price</th>
+                <th>Current</th>
+                <th>±% from Buy</th>
+                <th style="text-align:right;">Value Today</th>
+            </tr></thead>
+            <tbody id="quickViewBody"></tbody>
+            <tfoot><tr id="quickViewFoot" style="background:rgba(6,182,212,.10);font-weight:800;font-size:14px;"></tr></tfoot>
+        </table>
+    </div>
+
+    <!-- ═══ CURRENT PORTFOLIO — What You Own Today (detailed) ═══ -->
     <div class="section" style="overflow-x:auto;border-color:var(--green);">
-        <h2><span class="dot" style="background:var(--green)"></span>💼 Current Portfolio — What You Own Today</h2>
+        <h2><span class="dot" style="background:var(--green)"></span>💼 Current Portfolio — Detailed View</h2>
         <div style="font-size:12px;color:var(--t3);margin-bottom:14px;line-height:1.6;">
             <strong style="color:var(--green);">Active positions only</strong> — the stocks currently in your book. Hover any row to see the WHY behind the current status. Closed/exited positions moved to the "Trade History" table below.
         </div>
@@ -1597,12 +1617,13 @@ const today = new Date();
 const dayNum = Math.max(0, Math.floor((today - startDate) / 86400000));
 document.getElementById('dayCount').textContent = 'Day ' + dayNum;
 
-// Render current-portfolio (open positions) + history (closed positions) tables
+// Render QUICK VIEW (open positions only, compact) + current-portfolio (detailed) + history (closed positions) tables
+const qvb = document.getElementById('quickViewBody');
 const ltb = document.getElementById('liveTableBody');
 const htb = document.getElementById('historyTableBody');
 let totalInvested=0, totalValue=0, totalTarget=0, totalCostBasis=0, totalCostBasisOpen=0;
 let histRealizedTotal=0, histInvestedTotal=0, histProceedsTotal=0;
-let rowCounter = 0, histCounter = 0;
+let rowCounter = 0, histCounter = 0, qvCounter = 0;
 
 portfolio.forEach((p,i)=>{
     const soldShares = p.soldShares || 0;
@@ -1665,9 +1686,31 @@ portfolio.forEach((p,i)=>{
     }
 
     // ════════════════════════════════════════════════════════════════════
-    // Route: OPEN positions go to the CURRENT PORTFOLIO table
+    // Route: OPEN positions go to BOTH the Quick View + the Current Portfolio table
     // ════════════════════════════════════════════════════════════════════
     rowCounter++;
+
+    // ── QUICK VIEW ROW (compact) ──
+    qvCounter++;
+    const gainFromEntry = ((p.currentPrice - p.buyPrice) / p.buyPrice) * 100;
+    const gainColor = gainFromEntry >= 0 ? 'var(--green)' : 'var(--red)';
+    const gainArrow = gainFromEntry >= 0 ? '▲' : '▼';
+    const positionValue = p.shares * p.currentPrice;
+    const sellCell = (soldShares > 0 && sellPrice > 0)
+        ? `$${sellPrice.toFixed(2)} <span style="font-size:9px;color:var(--t3);">(${soldShares.toFixed(2)} sh)</span>`
+        : `<span style="color:var(--t3);">—</span>`;
+    qvb.innerHTML += `<tr class="live-row">
+        <td>${qvCounter}</td>
+        <td style="color:${p.color};font-weight:700;font-size:14px;">${p.t}</td>
+        <td style="font-weight:600;">${p.shares.toFixed(2)}</td>
+        <td>$${p.buyPrice.toFixed(2)}</td>
+        <td style="color:var(--yellow);font-size:12px;">${sellCell}</td>
+        <td style="font-weight:700;">$${p.currentPrice.toFixed(2)}</td>
+        <td style="color:${gainColor};font-weight:700;">${gainArrow} ${gainFromEntry>=0?'+':''}${gainFromEntry.toFixed(1)}%</td>
+        <td style="text-align:right;font-weight:700;color:${gainColor};font-size:14px;">$${positionValue.toFixed(0)}</td>
+    </tr>`;
+
+    // ── DETAILED ROW (below) ──
     let statusIcon, statusText, statusColor;
     statusIcon = pnl > 0 ? '&#9650;' : pnl < 0 ? '&#9660;' : '&#9644;';
     statusText = dayNum === 0 ? 'ENTRY' : (pnl > 0 ? 'UP' : pnl < 0 ? 'DOWN' : 'FLAT');
@@ -1733,6 +1776,23 @@ if (_histFoot) _histFoot.innerHTML = `<td></td><td></td><td>TOTAL CLOSED</td>
     <td style="color:${histTotRealizedColor};font-size:15px;">${histRealizedTotal>=0?'+$':'-$'}${Math.abs(histRealizedTotal).toFixed(0)}</td>
     <td style="color:${histTotRealizedColor};font-size:15px;">${histRealizedTotal>=0?'+':''}${histTotPct.toFixed(1)}%</td>
     <td style="font-size:10px;color:var(--t3);">${histCounter} closed positions</td>`;
+
+// Quick View footer — the headline number the user cares about most
+const _qvOpenTotal = totalValue;
+const _qvGrandTotal = totalValue + CASH_BALANCE;
+const _qvPnl = _qvGrandTotal - STARTING_CAPITAL;
+const _qvPnlColor = _qvPnl >= 0 ? 'var(--green)' : 'var(--red)';
+const _qvPnlPct = (_qvPnl / STARTING_CAPITAL) * 100;
+const _qvFoot = document.getElementById('quickViewFoot');
+if (_qvFoot) _qvFoot.innerHTML = `
+    <td></td>
+    <td style="color:var(--cyan);">TOTAL</td>
+    <td style="color:var(--t3);font-weight:500;font-size:11px;">${qvCounter} positions</td>
+    <td></td>
+    <td></td>
+    <td style="color:var(--cyan);font-size:11px;font-weight:500;">+ $${CASH_BALANCE.toFixed(2)} cash</td>
+    <td style="color:${_qvPnlColor};font-size:14px;">${_qvPnl>=0?'+':''}${_qvPnlPct.toFixed(2)}% <span style="font-size:10px;color:var(--t3);font-weight:400;">vs $10K</span></td>
+    <td style="text-align:right;color:${_qvPnlColor};font-size:18px;">$${_qvGrandTotal.toLocaleString(undefined,{maximumFractionDigits:0})}</td>`;
 
 const totalValueSell = portfolio.reduce((s,p) => s + ((p.soldShares||0) * (p.sellPrice||0)), 0);
 const totalValueBuyOrig = totalCostBasis;
