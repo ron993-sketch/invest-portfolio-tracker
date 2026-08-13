@@ -310,7 +310,25 @@ a{color:var(--blue);text-decoration:none;}a:hover{text-decoration:underline;}
     <div class="section" style="border-color:var(--blue);">
         <h2><span class="dot" style="background:var(--blue)"></span>Daily Decision Log</h2>
 
-        <!-- ── Aug 5, 2026 · TAKE-PROFITS + ROTATION ── (newest on top) -->
+        <!-- ── Aug 6, 2026 · CASH DEPLOYMENT — no more cash drag ── (newest on top) -->
+        <div style="background:rgba(6,182,212,.10);border:2px solid rgba(6,182,212,.45);border-radius:10px;padding:14px 16px;margin-bottom:14px;">
+            <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px;">
+                <strong style="font-size:14px;">Aug 6, 2026 (Thu) &middot; Day 116 &middot; <span style="color:var(--cyan);">FULL CASH DEPLOYMENT — no idle drag</span></strong>
+                <span style="font-size:11px;color:var(--t3);">2 add-ons</span>
+            </div>
+            <div style="font-size:12px;color:var(--t2);margin-bottom:10px;">Per user preference: no cash sitting around. Deployed $998 from the $1,030 buffer into NVDA (pre-earnings) + ORCL (still cheap). Residual $32 = rounding only.</div>
+            <ul class="il" style="margin:0;">
+                <li><span class="pos">BUY</span><div><strong>NVDA — +3.12 sh @ $224.09 ($699 deployed).</strong> Third add. Total position now 9.11 sh ($2,041) at wtd avg $212.40. Aug 26 earnings is 20 days away — sized up meaningfully for the catalyst. Stop raised to $180.</div></li>
+                <li><span class="pos">BUY</span><div><strong>ORCL — +1.95 sh @ $153.28 ($299 deployed).</strong> Second add. Total position now 6.95 sh ($1,065) at wtd avg $147.85. Still deep-value at ~$153 vs $220 target; backlog thesis intact.</div></li>
+                <li><span style="color:var(--cyan);">CASH</span><div><strong>$31.74 residual</strong> (from $1,029.60 → $998 deployed). Essentially zero cash going forward.</div></li>
+            </ul>
+            <div style="font-size:11px;color:var(--t3);margin-top:8px;border-top:1px solid var(--border);padding-top:8px;">
+                <strong>Post-deployment allocation:</strong> NVDA 14% (largest position now), MU 9.4%, EVER 15%, OPFI 13%, META 8%, NBIS 6.6%, ORCL 7.4%, GOOGL 5.7%, PANW 3%, TLN 3.5%, VST 2.7%, BRK.B/UNH 1.3% each.
+                <br><strong>Rule watch:</strong> NVDA now approaching cap territory — will need to trim if it rallies past $2.8K on strong earnings.
+            </div>
+        </div>
+
+        <!-- ── Aug 5, 2026 · TAKE-PROFITS + ROTATION ── -->
         <div style="background:linear-gradient(135deg,rgba(34,197,94,.14),rgba(6,182,212,.08));border:2px solid rgba(34,197,94,.55);border-radius:10px;padding:16px;margin-bottom:14px;">
             <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:10px;">
                 <strong style="font-size:15px;">Aug 5, 2026 (Wed) &middot; Day 115 &middot; <span style="color:var(--green);">TAKE-PROFITS + ROTATION → Realized P&amp;L flips to +$662 ✅</span></strong>
@@ -1105,8 +1123,10 @@ const PAGE_BUILD_TIME = '2026-08-13T11:29:23Z'; // replaced by the GitHub Action
 //        BUY NBIS $701, NVDA $600, TLN $501, VST $400 = $2,202 deployed for aggressive AI/nuclear tilt
 // Aug 5: Take-profits + rotation — TRIM MU (+$708 on doubled rule), TRIM PANW (+$182 preemptive),
 //        SELL POWL (-$61 cut loser), ADD NVDA $636 (pre-earnings), BUY ORCL $729 (deep value AI infra)
-const REALIZED_PNL = 662.41;        // Cumulative through Aug 5 (was -$166.08 + $828.49 from Aug 5 actions)
-const CASH_BALANCE = 1029.60;       // Dry powder after Aug 5 rebalance (~$2,367 in, ~$1,365 deployed)
+// Aug 6: FULL CASH DEPLOYMENT — added $699 to NVDA (pre-earnings) + $299 to ORCL (still cheap).
+//        Cash brought from $1,030 → $31 per user preference for zero cash drag.
+const REALIZED_PNL = 662.41;        // Unchanged — buys don't realize anything
+const CASH_BALANCE = 31.74;         // Fully deployed except residual rounding
 const STARTING_CAPITAL = 10000;     // Original $10K invested at inception (Apr 13, 2026)
 
 // ══════════════════════════════════════
@@ -1725,8 +1745,8 @@ const portfolio = [
    why:'ADDED Aug 3, 2026 — HIGHEST-MOMENTUM leg of the aggressive rebalance. Just signed $1B multi-year AI compute deal with Reflection AI. Q1 revenue +684% YoY. $50B contracted backlog anchored by Microsoft & Meta. FY26 revenue guide $3.4B (+550%). High-beta neocloud AI infrastructure play — double-digit daily moves are normal. Sized $700 (~5% of book) as a swing-trade momentum position, not a long-term hold. Hard stop $150 (~21% below entry) protects against volatility blow-ups.',
    about:'Nebius Group is a Netherlands-listed AI cloud infrastructure company that spun out from the Yandex breakup in 2024. Operates GPU-based AI compute for machine learning training and inference, serving hyperscalers and AI startups. Building out data centers in Finland, Iceland, France, and the US. HQ Amsterdam. Considered one of the top pure-play "neocloud" AI infrastructure names outside the mega-cap hyperscalers.',
    week:[180.20,183.50,178.90,185.40,188.10,192.30,190.41]},
-  {t:'NVDA', name:'NVIDIA Corp', invested:0, buyPrice:206.35, shares:5.99, buyDate:'Aug 3 + Aug 5', currentPrice:224.09, target:260.00, stopLoss:175.00, color:'#22c55e', catalyst:'Aug 26 earnings — expected $91B rev',
-   why:'ADDED Aug 3 (2.99 sh @ $200.75) THEN DOUBLED Aug 5 (+3.00 sh @ $211.94) as MU/PANW trim + POWL exit freed $2,367 cash. NVDA is the highest-conviction pre-earnings setup in the market — reports Aug 26 with expected $91B quarterly revenue. Every AI theme flows through NVDA. Total position now $1,270 (~9% of book) at weighted avg cost $206.35. Hard stop raised to $175 (~15% below wtd avg) — earnings binary event, defined risk in place.',
+  {t:'NVDA', name:'NVIDIA Corp', invested:0, buyPrice:212.40, shares:9.11, buyDate:'Aug 3 + Aug 5 + Aug 6', currentPrice:224.09, target:260.00, stopLoss:180.00, color:'#22c55e', catalyst:'Aug 26 earnings — expected $91B rev',
+   why:'ADDED THREE TIMES — Aug 3 (2.99 sh @ $200.75), Aug 5 (+3.00 sh @ $211.94), Aug 6 (+3.12 sh @ $224.09). Total position now 9.11 sh ($2,041 = ~14% of book) at weighted avg cost $212.40. Aug 6 add was cash deployment per user preference (no idle cash). NVDA reports Aug 26 with expected $91B quarterly revenue — biggest single catalyst of Q3. Hard stop raised to $180 (~15% below wtd avg). Approaching 20% cap territory — will trim on further additions or if position rallies past $2.5K.',
    about:'NVIDIA is the dominant global supplier of GPUs and AI accelerators. Its H100/H200/Blackwell chips are the foundation of nearly every large AI training cluster (OpenAI, Anthropic, Meta, Microsoft, Google). Data Center segment is >90% of revenue and growing 100%+. HQ Santa Clara, CA. Founded 1993 by Jensen Huang. The single most important company in the AI supply chain.',
    week:[195.20,198.10,196.30,201.50,199.80,202.40,200.75]},
   {t:'TLN', name:'Talen Energy', invested:0, buyPrice:334.10, shares:1.50, buyDate:'Aug 3', currentPrice:365.07, target:450.00, stopLoss:290.00, color:'#f59e0b', catalyst:'AWS 1,920 MW deal execution',
@@ -1737,8 +1757,8 @@ const portfolio = [
    why:'ADDED Aug 3, 2026 — companion to TLN, same nuclear+AI power theme but with gas exposure too. Pulled back from $220 52w high. Sized $400 (~3% of book) to diversify the nuclear-power bet across two names. Hard stop $130 (~12% below). Target $200-220 (retest of highs). Both TLN and VST should move together on any positive AI-data-center power news.',
    about:'Vistra is the largest competitive power generator in the US, with a mix of nuclear (via 2024 acquisition of Energy Harbor), natural gas, coal, and renewables. Retail electricity business (TXU) provides steady cash flow. HQ Irving, TX. Multiple hyperscaler discussions reportedly in progress for direct-to-datacenter power supply — expected to announce deals in 2026-2027.',
    week:[152.30,150.80,148.60,146.20,149.10,150.40,148.19]},
-  {t:'ORCL', name:'Oracle Corporation', invested:0, buyPrice:145.74, shares:5.00, buyDate:'Aug 5', currentPrice:153.28, target:220.00, stopLoss:125.00, color:'#f80000', catalyst:'FCF inflection + Stargate execution',
-   why:'ADDED Aug 5 — deep-value AI infrastructure play. ORCL crashed -58% from $346 peak, sitting at ~$146 despite record $638B contracted backlog (RPO). Bull case: $300B Stargate/OpenAI deal generates ~$60B/yr for 5 years; if FCF turns positive late 2027, stock re-rates to $220+. Bear risk defined: $130B debt + capex burn (~-$24B FCF FY26). Sized $729 (~5% of book) as asymmetric play. Hard stop $125 (~14% below entry, below 52w low $135 buffer). Companion to NVDA / NBIS AI-infra bets.',
+  {t:'ORCL', name:'Oracle Corporation', invested:0, buyPrice:147.85, shares:6.95, buyDate:'Aug 5 + Aug 6', currentPrice:153.28, target:220.00, stopLoss:125.00, color:'#f80000', catalyst:'FCF inflection + Stargate execution',
+   why:'ADDED Aug 5 (5.00 sh @ $145.74) THEN ADDED Aug 6 (+1.95 sh @ $153.28) as cash deployment. Total position now 6.95 sh ($1,065 = ~7.5% of book) at weighted avg cost $147.85. Deep-value AI infrastructure — ORCL crashed -58% from $346 peak despite record $638B contracted backlog. Bull case: Stargate/OpenAI $300B deal converts to positive FCF late 2027, stock re-rates to $220+. Bear risk defined: $130B debt + capex burn. Hard stop $125 (~15% below wtd avg, below 52w low buffer).',
    about:'Oracle Corporation is a global enterprise software and cloud infrastructure company. Oracle Cloud Infrastructure (OCI) is the 4th-largest hyperscaler after AWS/Azure/GCP, growing +93% YoY on AI workload demand. Signed the landmark $300B, 5-year Stargate partnership with OpenAI in 2025 to build ~5GW of AI data center capacity. HQ Austin, TX (relocated from Redwood City). Founded 1977 by Larry Ellison. FY26 revenue $67B (+17%), backlog $638B (+363%).',
    week:[130.20,132.50,135.80,138.10,141.20,143.60,145.74]},
   {t:'UNH', name:'UnitedHealth Group', invested:0, buyPrice:379.98, shares:0.45, buyDate:'May 10', currentPrice:405.59, target:475.00, color:'#0ea5e9', catalyst:'Q2 print + DOJ overhang resolution',
