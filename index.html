@@ -104,7 +104,8 @@ a{color:var(--blue);text-decoration:none;}a:hover{text-decoration:underline;}
 <nav class="topnav" id="topnav">
     <div class="nav-brand" onclick="showPage('invest')">PORTFOLIO PRO</div>
     <div class="nav-tab active" id="nav-invest" onclick="showPage('invest')">$10K Plan</div>
-    <div class="nav-tab" id="nav-summary" onclick="showPage('summary')">📊 Summary <span class="badge">JOURNEY</span></div>
+    <div class="nav-tab" id="nav-summary" onclick="showPage('summary')">📊 Summary</div>
+    <div class="nav-tab" id="nav-whatif" onclick="showPage('whatif')">🔄 What If <span class="badge" style="background:var(--yellow);color:#000;">COMPARE</span></div>
 </nav>
 
 <!-- ═══ PORTFOLIO PAGE ═══ -->
@@ -1253,6 +1254,72 @@ a{color:var(--blue);text-decoration:none;}a:hover{text-decoration:underline;}
             <li><span style="color:var(--yellow);">△</span><div><strong>Some names never work.</strong> HLI, POWL, SMMT — flat-to-negative with no catalyst. Cutting them earlier would have accelerated the run. Lesson: give a name 2 months to prove itself, then rotate.</div></li>
             <li><span style="color:var(--red);">✗</span><div><strong>Concentration always risks.</strong> MU was 24% of book at peak — a bad print could have wrecked the whole quarter. The cap rule saved that.</div></li>
         </ul>
+    </div>
+
+</div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════
+     WHAT-IF PAGE — Counterfactual: what if we hadn't rebalanced on Aug 29?
+═══════════════════════════════════════════════════════════════════ -->
+<div id="page-whatif" class="page">
+<div class="container">
+
+    <!-- HERO -->
+    <div class="hero" style="background:linear-gradient(135deg,rgba(234,179,8,.10),rgba(139,92,246,.05));border-color:var(--yellow);">
+        <div>
+            <h1>🔄 What If — The Counterfactual</h1>
+            <p>What would your portfolio be worth today if you had <strong>NOT rebalanced on Aug 29</strong> — kept the original 13 winners + cash instead of buying the 20 speculative names? Updated live with the same auto-refresh.</p>
+        </div>
+        <div class="hero-stats">
+            <div class="hero-stat"><div class="val" style="color:var(--blue);" id="wifActual">—</div><div class="lbl">Actual Now (20 spec)</div></div>
+            <div class="hero-stat"><div class="val" style="color:var(--yellow);" id="wifKept">—</div><div class="lbl">What-If (kept old)</div></div>
+            <div class="hero-stat"><div class="val" id="wifDelta">—</div><div class="lbl">Better / Worse</div></div>
+            <div class="hero-stat"><div class="val" id="wifVerdict" style="font-size:14px;">—</div><div class="lbl">Verdict</div></div>
+        </div>
+    </div>
+
+    <!-- Explanation banner -->
+    <div class="section" style="border-color:var(--yellow);background:rgba(234,179,8,.04);margin-bottom:20px;">
+        <div style="font-size:13px;color:var(--t2);line-height:1.7;">
+            <strong style="color:var(--yellow);">💡 What this shows:</strong><br>
+            On <strong>Aug 29, 2026</strong> we sold all 13 open positions and redeployed $12,497 into 20 speculative names (NBIS, IONQ, HIMS, HOOD, etc.). At the moment of sale we realized <strong>+$1,833</strong> in gains — so <strong>the sell itself was profitable</strong>. But the question is: how do the NEW 20 stocks perform vs the ORIGINAL 13?
+            <br><br>
+            <strong>What-If value</strong> = sum of (old shares × current market price) + $31.74 cash retained. Updates automatically with the auto-refresh every trading day.
+        </div>
+    </div>
+
+    <!-- The 13 old positions as they'd look TODAY -->
+    <div class="section" style="overflow-x:auto;border-color:var(--yellow);">
+        <h2><span class="dot" style="background:var(--yellow)"></span>📜 The 13 Old Positions — Priced NOW</h2>
+        <div style="font-size:12px;color:var(--t3);margin-bottom:14px;">Shows what you'd own today if the Aug 29 rebalance had never happened. Live prices from the auto-refresh.</div>
+        <table class="stock-table" id="wifTable">
+            <thead><tr>
+                <th>#</th><th>Ticker</th><th>Shares Held</th><th>Buy $</th><th>Now $</th>
+                <th>% Since Entry</th><th>Value Today</th><th>vs Aug 29 Sale</th>
+            </tr></thead>
+            <tbody id="wifBody"></tbody>
+            <tfoot><tr id="wifFoot" style="background:rgba(234,179,8,.10);font-weight:800;"></tr></tfoot>
+        </table>
+    </div>
+
+    <!-- Side-by-side comparison -->
+    <div class="g2" style="margin-bottom:22px;">
+        <div class="section" style="border-color:var(--blue);">
+            <h2><span class="dot" style="background:var(--blue)"></span>✅ Actual — The 20 Spec Portfolio</h2>
+            <div id="wifActualDetails" style="font-size:13px;color:var(--t2);line-height:1.8;">—</div>
+        </div>
+        <div class="section" style="border-color:var(--yellow);">
+            <h2><span class="dot" style="background:var(--yellow)"></span>🔄 What-If — Kept the Old 13</h2>
+            <div id="wifKeptDetails" style="font-size:13px;color:var(--t2);line-height:1.8;">—</div>
+        </div>
+    </div>
+
+    <!-- Note about tracking -->
+    <div class="section" style="border-color:var(--t3);background:rgba(148,163,184,.03);">
+        <div style="font-size:12px;color:var(--t3);line-height:1.7;">
+            <strong>Note:</strong> This comparison is purely mark-to-market. The rebalance also <strong>locked in +$1,833 in realized gains</strong> on Aug 29 (money that's already "yours" and can't be reversed). In tax-sheltered accounts that's neutral; in taxable accounts the rebalance would trigger capital gains tax. Both scenarios include the same starting capital track record (up +25% from $10K → $12,497 before Aug 29).
+        </div>
     </div>
 
 </div>
@@ -2416,6 +2483,132 @@ if (_histFoot) _histFoot.innerHTML = `<td></td><td></td><td>TOTAL CLOSED</td>
     // Today's note (bottom of milestones)
     if ($('sumTodayNote')) {
         $('sumTodayNote').innerHTML = `Portfolio value: <strong style="color:${_pnlColor};">${_fmt$(_totalAssets)}</strong> (<strong style="color:${_pnlColor};">${_fmtSigned(_totalPnl)}, ${_totalPct>=0?'+':''}${_totalPct.toFixed(1)}%</strong>). Realized P&L: <strong style="color:${REALIZED_PNL>=0?'var(--green)':'var(--red)'};">${_fmtSigned(REALIZED_PNL)}</strong>. Cash: <strong>${_fmt$(CASH_BALANCE)}</strong>. Live journey continues.`;
+    }
+})();
+
+// ══════════════════════════════════════════════════════════════════
+//   WHAT-IF TAB — counterfactual: what if we kept the old 13 positions?
+// ══════════════════════════════════════════════════════════════════
+(function renderWhatIf(){
+    // The 13 positions we sold on Aug 29 — (ticker, shares held at time of sale, weighted avg cost, sell price on Aug 29)
+    const OLD_POSITIONS = [
+        {t:'MU',    sh:1.50,   buy:420.59,  soldAt:932.86},
+        {t:'OPFI',  sh:188.4,  buy:7.96,    soldAt:7.07},
+        {t:'META',  sh:2.03,   buy:623.43,  soldAt:578.02},
+        {t:'GOOGL', sh:2.25,   buy:317.37,  soldAt:346.59},
+        {t:'EVER',  sh:92.50,  buy:15.13,   soldAt:25.66},
+        {t:'PANW',  sh:1.17,   buy:184.56,  soldAt:371.59},
+        {t:'BRK-B', sh:0.36,   buy:475.94,  soldAt:505.00},
+        {t:'NBIS',  sh:3.68,   buy:190.41,  soldAt:209.18},
+        {t:'NVDA',  sh:9.11,   buy:212.40,  soldAt:217.55},
+        {t:'TLN',   sh:1.50,   buy:334.10,  soldAt:296.11},
+        {t:'VST',   sh:2.70,   buy:148.19,  soldAt:137.09},
+        {t:'ORCL',  sh:6.95,   buy:147.85,  soldAt:150.85},
+        {t:'UNH',   sh:0.45,   buy:379.98,  soldAt:392.95},
+    ];
+    const CASH_KEPT = 31.74;
+
+    // Find current price of each old position by looking up its entry in the portfolio array.
+    // For each ticker we prefer the closed entry (buyPrice matches our record).
+    function lookupCurrent(ticker, buyPrice) {
+        for (const p of portfolio) {
+            if (p.t === ticker && Math.abs(p.buyPrice - buyPrice) < 0.02) {
+                return p.currentPrice;
+            }
+        }
+        // Fallback: any entry matching the ticker (in case of tiny buyPrice diff)
+        for (const p of portfolio) {
+            if (p.t === ticker) return p.currentPrice;
+        }
+        return null;
+    }
+
+    const wifBody = document.getElementById('wifBody');
+    if (!wifBody) return; // page not loaded
+
+    let wifTotal = 0;
+    let saleTotal = 0;
+    const rows = [];
+    OLD_POSITIONS.forEach((p, i) => {
+        const nowPrice = lookupCurrent(p.t, p.buy) || p.soldAt;
+        const nowVal = p.sh * nowPrice;
+        const saleVal = p.sh * p.soldAt;
+        const gainPct = ((nowPrice - p.buy) / p.buy) * 100;
+        const vsSalePct = ((nowPrice - p.soldAt) / p.soldAt) * 100;
+        wifTotal += nowVal;
+        saleTotal += saleVal;
+        rows.push({...p, nowPrice, nowVal, saleVal, gainPct, vsSalePct, i:i+1});
+    });
+
+    // Sort by absolute vsSale movement (biggest surprises first)
+    rows.sort((a,b) => Math.abs(b.vsSalePct) - Math.abs(a.vsSalePct));
+
+    wifBody.innerHTML = rows.map(r => {
+        const gainColor = r.gainPct >= 0 ? 'var(--green)' : 'var(--red)';
+        const vsSaleColor = r.vsSalePct >= 0 ? 'var(--green)' : 'var(--red)';
+        const arrow = r.vsSalePct >= 0 ? '▲' : '▼';
+        return `<tr>
+            <td>${r.i}</td>
+            <td class="ticker" style="font-weight:700;">${r.t}</td>
+            <td>${r.sh.toFixed(2)}</td>
+            <td>$${r.buy.toFixed(2)}</td>
+            <td style="font-weight:700;">$${r.nowPrice.toFixed(2)}</td>
+            <td style="color:${gainColor};font-weight:700;">${r.gainPct>=0?'+':''}${r.gainPct.toFixed(1)}%</td>
+            <td style="font-weight:700;">$${r.nowVal.toFixed(0)}</td>
+            <td style="color:${vsSaleColor};font-weight:600;">${arrow} ${r.vsSalePct>=0?'+':''}${r.vsSalePct.toFixed(1)}% <span style="font-size:10px;color:var(--t3);">vs sale</span></td>
+        </tr>`;
+    }).join('');
+
+    const wifValue = wifTotal + CASH_KEPT;
+
+    // Footer
+    const wifFoot = document.getElementById('wifFoot');
+    if (wifFoot) {
+        const totalGain = wifTotal - saleTotal;
+        const totalGainColor = totalGain >= 0 ? 'var(--green)' : 'var(--red)';
+        wifFoot.innerHTML = `
+            <td></td><td>TOTAL 13</td><td></td><td></td>
+            <td style="font-size:10px;color:var(--t3);">Sale total: $${saleTotal.toFixed(0)}</td>
+            <td></td>
+            <td style="color:var(--yellow);font-size:15px;">$${wifTotal.toFixed(0)}</td>
+            <td style="color:${totalGainColor};">${totalGain>=0?'+':'-'}$${Math.abs(totalGain).toFixed(0)} <span style="font-size:10px;color:var(--t3);">since sale</span></td>`;
+    }
+
+    // Compute actual portfolio value (20 spec + cash)
+    const activePositions = portfolio.filter(p => p.shares > 0);
+    const actualValue = activePositions.reduce((s,p) => s + p.shares * p.currentPrice, 0) + CASH_BALANCE;
+    const delta = actualValue - wifValue;
+    const deltaColor = delta >= 0 ? 'var(--green)' : 'var(--red)';
+
+    // Hero stats
+    const fmt = n => '$' + Math.round(n).toLocaleString();
+    const setEl = (id, txt, color) => { const el = document.getElementById(id); if (el) { el.textContent = txt; if (color) el.style.color = color; } };
+    setEl('wifActual', fmt(actualValue), 'var(--blue)');
+    setEl('wifKept', fmt(wifValue), 'var(--yellow)');
+    setEl('wifDelta', (delta>=0?'+':'-') + fmt(Math.abs(delta)), deltaColor);
+    const verdict = delta > 100 ? '✅ Good call' : delta < -100 ? '❌ Bad call' : '➖ Neutral';
+    setEl('wifVerdict', verdict, deltaColor);
+
+    // Details boxes
+    const actualDetails = document.getElementById('wifActualDetails');
+    if (actualDetails) {
+        actualDetails.innerHTML = `
+            <strong>Current value:</strong> <span style="color:var(--blue);font-size:16px;">${fmt(actualValue)}</span><br>
+            <strong>Composition:</strong> ${activePositions.length} speculative names, ~$625 each<br>
+            <strong>Cash:</strong> $${CASH_BALANCE.toFixed(2)}<br>
+            <strong>Realized P&L (locked):</strong> <span style="color:var(--green);">+$${REALIZED_PNL.toFixed(2)}</span><br>
+            <strong>Themes:</strong> AI compute · Quantum · Space · Nuclear · Crypto · Ad-tech · Biotech<br>
+            <strong>Risk profile:</strong> EXTREME — designed for +50-80% shot with -20% floor<br>`;
+    }
+    const keptDetails = document.getElementById('wifKeptDetails');
+    if (keptDetails) {
+        keptDetails.innerHTML = `
+            <strong>Current value:</strong> <span style="color:var(--yellow);font-size:16px;">${fmt(wifValue)}</span><br>
+            <strong>Composition:</strong> 13 balanced positions (AI + defensive + growth)<br>
+            <strong>Cash:</strong> $${CASH_KEPT.toFixed(2)}<br>
+            <strong>Realized P&L:</strong> <span style="color:var(--green);">+$662.41</span> (pre-Aug 29 only)<br>
+            <strong>Would-be missed gains:</strong> $${(1833.33).toFixed(2)} realized locked in by selling<br>
+            <strong>Risk profile:</strong> DIVERSIFIED — mega-caps + defensives, stable book<br>`;
     }
 })();
 
