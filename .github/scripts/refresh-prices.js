@@ -11,7 +11,14 @@ const FILE_PATH = 'index.html';
 
 // Active live-portfolio tickers (positions with shares > 0).
 // Closed positions (QFIN, CEG) keep their historical exit price baked in.
-const TICKERS = ['NBIS','APP','HIMS','HOOD','PLTR','RDDT','RKLB','ASTS','IONQ','RGTI','QUBT','OKLO','NNE','SMR','IREN','WULF','APLD','COIN','MSTR','VKTX'];
+// Active (20 new spec names) + closed positions tracked for "What If" comparison
+const TICKERS = [
+    // Active portfolio (20 speculative names)
+    'NBIS','APP','HIMS','HOOD','PLTR','RDDT','RKLB','ASTS','IONQ','RGTI','QUBT','OKLO','NNE','SMR','IREN','WULF','APLD','COIN','MSTR','VKTX',
+    // Closed positions (13) — kept updated for What-If tab comparison
+    'MU','OPFI','META','GOOGL','EVER','PANW','BRK-B','NVDA','TLN','VST','ORCL','UNH'
+    // NBIS already in the active list above (was both closed AND repurchased)
+];
 
 const UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36';
 
